@@ -46,6 +46,6 @@ await app.register(FastifyMikroOrmPlugin, config);
 await app.register(FastifySearchHttpMethodPlugin, {});
 await app.register(FastifyBadWordsPlugin);
 
-await app.register(DoggrRoutes, {});
+await app.register(QuizRoutes, {});
 
 export default app;

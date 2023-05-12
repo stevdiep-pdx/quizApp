@@ -1,10 +1,10 @@
-import { FastifyInstance } from "fastify";
+/*import { FastifyInstance } from "fastify";
 import { Message } from "../db/entities/Message.js";
 import { User } from "../db/entities/User.js";
 import { ICreateMessage } from "../types.js";
 
 
-export function MessageRoutesInit(app: FastifyInstance) {
+export function MessageRoutesInit(app: FastifyInstance) {*/
 /////////////////////////////////////////////////////////////////////////////
 	// HOMEWORK 1
 	/////////////////////////////////////////////////////////////////////////////
@@ -24,7 +24,8 @@ export function MessageRoutesInit(app: FastifyInstance) {
 	 that fixes this problem.  We'll do it the simpler way for this solution
 	 and take what we need from the database at any cost.
 	 */
-	app.post<{ Body: ICreateMessage }>("/messages", async (req, reply) => {
+/*
+app.post<{ Body: ICreateMessage }>("/messages", async (req, reply) => {
 		const { sender_id, receiver_id, message } = req.body;
 
 		// Check for bad words - We could move this into its own utility service, but it's only used here for now
@@ -148,3 +149,4 @@ export function MessageRoutesInit(app: FastifyInstance) {
 		}
 	);
 }
+*/

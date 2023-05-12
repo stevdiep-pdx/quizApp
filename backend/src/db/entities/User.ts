@@ -1,21 +1,21 @@
 import { Entity, Property, Unique, OneToMany, Collection, Cascade } from "@mikro-orm/core";
 import { SoftDeletable } from "mikro-orm-soft-delete";
-import { DoggrBaseEntity } from "./DoggrBaseEntity.js";
-import { Match } from "./Match.js";
+import { QuizBaseEntity } from "./QuizBaseEntity.js";
+//import { Match } from "./Match.js";
 
 import { Enum } from "@mikro-orm/core";
-import { Message } from "./Message.js";
+//import { Message } from "./Message.js";
 
 export enum UserRole {
 	ADMIN = 'Admin',
 	USER = 'User'
 }
 
+// Soft Delete Reference
 // https://github.com/TheNightmareX/mikro-orm-soft-delete
-// Yes, it's really that easy.
 @SoftDeletable(() => User, "deleted_at", () => new Date())
 @Entity({ tableName: "users"})
-export class User extends DoggrBaseEntity {
+export class User extends QuizBaseEntity {
 	@Property()
 	@Unique()
 	email!: string;
@@ -26,12 +26,7 @@ export class User extends DoggrBaseEntity {
 	@Property()
 	password!: string;
 
-	@Property()
-	petType!: string;
-
-	@Enum(() => UserRole)
-	role!: UserRole; // string enum
-
+	/*
 	// Note that these DO NOT EXIST in the database itself!
 	@OneToMany(
 		() => Match,
@@ -61,4 +56,5 @@ export class User extends DoggrBaseEntity {
 		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
 	)
 	messages_received!: Collection<Message>;
+	*/
 }
