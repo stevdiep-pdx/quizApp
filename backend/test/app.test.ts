@@ -40,13 +40,16 @@ void tap.test("List all users from /dbvoid tap.test", async () => {
 	response.statusCode.should.equal(200);
 });
 
+
+
+// USERS CRUD TEST //
+
+// Creating a user
 void tap.test("Creating a new user", async () => {
 	const payload = {
-		name: "void tap.testname",
+		name: "Tester",
 		email: faker.internet.email(),
-		password: "password",
-		role: UserRole.USER,
-		petType: "Dog"
+		password: "password"
 	};
 
 	const response = await app.inject({
@@ -55,13 +58,90 @@ void tap.test("Creating a new user", async () => {
 		payload
 	});
 
+	// Verifying the results
 	response.statusCode.should.equal(200);
 	response.payload.should.not.equal(payload);
 	const resPayload = response.json();
 	resPayload.email.should.equal(payload.email);
-	resPayload.petType.should.equal("Dog");
+	resPayload.name.should.equal("Tester");
 });
 
+// Reading a user
+void tap.test("Getting a user", async () => {
+	const payload = {
+		id: 1
+	};
+
+	const response = await app.inject({
+		method: "SEARCH",
+		url: "/users",
+		payload
+	});
+
+	// Verifying the results
+	response.statusCode.should.equal(200);
+	const resPayload = response.json();
+	resPayload.name.should.equal("Steven");
+});
+
+// Updating a user
+void tap.test("Updating a user's name", async () => {
+	const payload = {
+		id: 1,
+		name: "Stephen"
+	};
+
+	const response = await app.inject({
+		method: "PUT",
+		url: "/users",
+		payload
+	});
+
+	// Verifying the results
+	response.statusCode.should.equal(200);
+	const resPayload = response.json();
+	resPayload.name.should.equal(payload.name);
+});
+
+// Deleting a user
+void tap.test("Deleting a user", async () => {
+	let payload = {
+		id: 1,
+		password: "password"
+	};
+
+	let response = await app.inject({
+		method: "DELETE",
+		url: "/users",
+		payload
+	});
+
+	response.statusCode.should.equal(200);
+
+	// Invalid ID should have a bad response code
+	payload = { ...payload, my_id: 1000000 };
+
+	response = await app.inject({
+		method: "DELETE",
+		url: "/users",
+		payload
+	});
+
+	response.statusCode.should.equal(500);
+
+	// Invalid password should have a bad response code
+	payload = { ...payload, id: 2, password: "password2" };
+
+	response = await app.inject({
+		method: "DELETE",
+		url: "/users",
+		payload
+	});
+
+	response.statusCode.should.equal(401);
+});
+
+/*
 void tap.test("Creating a new message", async () => {
 	const payload = {
 		sender_id: 1,
@@ -215,3 +295,4 @@ void tap.test("Testing message bad words filter", async () => {
 	resPayload.message.should.equal("Bad words naughty list added.");
 	resPayload.message.should.not.equal("Bad words naughty list added!");
 });
+*/

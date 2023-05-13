@@ -1,6 +1,6 @@
 import type { EntityManager } from '@mikro-orm/core';
 import { Seeder } from '@mikro-orm/seeder';
-import { MessageSeeder } from "./MessageSeeder.js";
+//import { MessageSeeder } from "./MessageSeeder.js";
 import {UserSeeder} from "./UserSeeder.js";
 
 export class DatabaseSeeder extends Seeder {
