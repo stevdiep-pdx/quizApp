@@ -102,7 +102,7 @@ void tap.test("Updating a user's name", async () => {
 	const resPayload = response.json();
 	resPayload.name.should.equal(payload.name);
 });
-/*
+
 // Deleting a user
 void tap.test("Deleting a user", async () => {
 	let payload = {
@@ -141,7 +141,7 @@ void tap.test("Deleting a user", async () => {
 
 	response.statusCode.should.equal(401);
 });
-*/
+
 
 
 // QUIZZES CRUD TEST //
@@ -202,6 +202,64 @@ void tap.test("Updating a quiz's name", async () => {
 });
 
 // Deleting a quiz
+// Deleting a user
+void tap.test("Deleting a user", async () => {
+	let payload = {
+		my_id: 1,
+		quiz_id: 1,
+		password: "password"
+	};
+	
+	// Bad delete, user gone
+	let response = await app.inject({
+		method: "DELETE",
+		url: "/quizzes",
+		payload
+	});
+	
+	response.statusCode.should.equal(500);
+	
+	// Invalid ID should have a bad response code
+	payload = { ...payload, my_id: 1000000 };
+	
+	response = await app.inject({
+		method: "DELETE",
+		url: "/quizzes",
+		payload
+	});
+	
+	response.statusCode.should.equal(500);
+	
+	// Invalid password should have a bad response code
+	payload = {
+		my_id: 2,
+		quiz_id: 3,
+		password: "password2"
+	};
+	
+	response = await app.inject({
+		method: "DELETE",
+		url: "/quizzes",
+		payload
+	});
+	
+	response.statusCode.should.equal(401);
+	
+	// Good delete
+	payload = {
+		my_id: 2,
+		quiz_id: 3,
+		password: "password"
+	};
+	
+	response = await app.inject({
+		method: "DELETE",
+		url: "/quizzes",
+		payload
+	});
+	
+	response.statusCode.should.equal(200);
+});
 
 /*
 void tap.test("Creating a new message", async () => {
