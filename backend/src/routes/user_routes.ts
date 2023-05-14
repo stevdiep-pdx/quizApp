@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { SOFT_DELETABLE_FILTER } from "mikro-orm-soft-delete";
-import { User, UserRole } from "../db/entities/User.js";
+import { User } from "../db/entities/User.js";
 import { ICreateUsersBody, IUpdateUsersBody } from "../types.js";
 
 export function UserRoutesInit(app: FastifyInstance) {

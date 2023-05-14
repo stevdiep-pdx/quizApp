@@ -1,15 +1,9 @@
 import { Entity, Property, Unique, OneToMany, Collection, Cascade } from "@mikro-orm/core";
 import { SoftDeletable } from "mikro-orm-soft-delete";
 import { QuizBaseEntity } from "./QuizBaseEntity.js";
-//import { Match } from "./Match.js";
 
-import { Enum } from "@mikro-orm/core";
 //import { Message } from "./Message.js";
 
-export enum UserRole {
-	ADMIN = 'Admin',
-	USER = 'User'
-}
 
 // Soft Delete Reference
 // https://github.com/TheNightmareX/mikro-orm-soft-delete

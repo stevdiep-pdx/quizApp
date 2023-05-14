@@ -110,6 +110,7 @@ void tap.test("Deleting a user", async () => {
 		password: "password"
 	};
 
+	// Good delete
 	let response = await app.inject({
 		method: "DELETE",
 		url: "/users",

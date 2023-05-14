@@ -1,31 +1,96 @@
-/*import { FastifyInstance } from "fastify";
-import { Message } from "../db/entities/Message.js";
+import { FastifyInstance } from "fastify";
+import { Quiz } from "../db/entities/Quiz.js";
 import { User } from "../db/entities/User.js";
-import { ICreateMessage } from "../types.js";
 
-
-export function MessageRoutesInit(app: FastifyInstance) {*/
-/////////////////////////////////////////////////////////////////////////////
-	// HOMEWORK 1
-	/////////////////////////////////////////////////////////////////////////////
-
-	/* This is where we have to be careful with the difference in a full entity
-	 vs a reference.  References are a Mikro-orm optimization that lets us avoid database
-	 queries when all we need from something is its id.  That is the case here:
-	 we only *need* references to these Users, not their entire data.  We don't actually care
-	 about any of their data except their ID, so we would like to use references here.
-	 Unfortunately, we're currently tracking users by their email address, not their database id!
-
-	 This is a situation where you have a choice to make.  Either we refactor a bit
-	 now to start using `id` everywhere rather than email address (since THAT is the field
-	 that links tables together in our database, not email...or we give up forever
-	 on enabling LOTS of optimizations.  My personal choice is to refactor, so
-	 the final code solution I merge into our official Doggr repo will be one
-	 that fixes this problem.  We'll do it the simpler way for this solution
-	 and take what we need from the database at any cost.
-	 */
-/*
-app.post<{ Body: ICreateMessage }>("/messages", async (req, reply) => {
+export function MessageRoutesInit(app: FastifyInstance) {
+	// CRUD ROUTES //
+	// Create a quiz
+	app.post<{ Body: { id: number, quiz_name: string } }>("/quizzes", async (req, reply) => {
+		const {id, quiz_name } = req.body;
+		
+		try {
+			// Find the creator of the quiz
+			const creatorUser = await req.em.findOneOrFail(User, id, {strict: true});
+			
+			// Create the new message
+			const newQuiz = await req.em.create(Quiz, {
+				creator: creatorUser,
+				name: quiz_name,
+			});
+			
+			// Persist changes
+			await req.em.flush();
+			
+			// Send a reply
+			return reply.send(newQuiz);
+		} catch (err) {
+			return reply.status(500).send({ message: err.message });
+		}
+	});
+	
+	// Read all quizzes owned by a user
+	app.search<{ Body: { id: number } }>("/quizzes", async (req, reply) => {
+		const { id } = req.body;
+		
+		try {
+			// Find the user and their quizzes
+			const ownerEntity = await req.em.getReference(User, id);
+			const quizzes = await req.em.find(Quiz, { creator: ownerEntity });
+			
+			// Send a reply back with all quizzes
+			return reply.send(quizzes);
+		} catch (err) {
+			return reply.status(500).send({ message: err.message });
+		}
+	});
+	
+	// Update a quiz's name
+	app.put<{ Body: { id: number; new_name: string } }>("/quizzes", async (req, reply) => {
+		const { id, new_name } = req.body;
+		
+		try {
+			// Find the quiz with the id and change its name
+			const quiz = await req.em.findOneOrFail(Quiz, id, {strict: true});
+			quiz.name = new_name;
+			
+			// Persist changes
+			await req.em.persistAndFlush(quiz);
+			
+			// Send a reply
+			return reply.send(quiz);
+		} catch (err) {
+			return reply.status(500).send({ message: err.message });
+		}
+	});
+	
+	// Delete a quiz
+	app.delete<{ Body: { my_id: number, quiz_id: number; password: string } }>("/quizzes", async (req, reply) => {
+		const { my_id, quiz_id, password } = req.body;
+		
+		try {
+			// Get the user
+			const me = await req.em.findOneOrFail(User, my_id, {strict: true});
+			
+			// Make sure that the password provided matches
+			if (me.password !== password) {
+				return reply.status(401).send();
+			}
+			
+			// Get the quiz
+			const quizToDelete = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
+			
+			// Delete the quiz and persist
+			await req.em.removeAndFlush(quizToDelete);
+			
+			// Send a response
+			return reply.send();
+		} catch (err) {
+			return reply.status(500).send({ message: err.message });
+		}
+	});
+	
+	/*
+	app.post<{ Body: ICreateMessage }>("/messages", async (req, reply) => {
 		const { sender_id, receiver_id, message } = req.body;
 
 		// Check for bad words - We could move this into its own utility service, but it's only used here for now
@@ -147,6 +212,7 @@ app.post<{ Body: ICreateMessage }>("/messages", async (req, reply) => {
 				return reply.status(500).send({ message: err.message });
 			}
 		}
-	);
+	);*/
+	
 }
-*/
+
