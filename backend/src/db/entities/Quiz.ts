@@ -10,5 +10,6 @@ export class Quiz extends QuizBaseEntity {
 	creator!: Ref<User>;
 	
 	// The quiz name
+	@Property()
 	name!: string;
 }

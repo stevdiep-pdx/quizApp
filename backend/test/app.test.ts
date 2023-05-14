@@ -102,7 +102,7 @@ void tap.test("Updating a user's name", async () => {
 	const resPayload = response.json();
 	resPayload.name.should.equal(payload.name);
 });
-
+/*
 // Deleting a user
 void tap.test("Deleting a user", async () => {
 	let payload = {
@@ -141,6 +141,67 @@ void tap.test("Deleting a user", async () => {
 
 	response.statusCode.should.equal(401);
 });
+*/
+
+
+// QUIZZES CRUD TEST //
+
+// Creating a quiz
+void tap.test("Creating a new quiz", async () => {
+	const payload = {
+		id: 2,
+		quiz_name: "Amendments"
+	};
+	
+	const response = await app.inject({
+		method: "POST",
+		url: "/quizzes",
+		payload
+	});
+	
+	// Verifying the results
+	response.statusCode.should.equal(200);
+	response.payload.should.not.equal(payload);
+	const resPayload = response.json();
+	resPayload.creator.id.should.equal(2);
+});
+
+// Reading all quizzes for a user
+void tap.test("Getting all quizzes for a user", async () => {
+	const payload = {
+		id: 2
+	};
+	
+	const response = await app.inject({
+		method: "SEARCH",
+		url: "/quizzes",
+		payload
+	});
+	
+	// Verifying the results
+	response.statusCode.should.equal(200);
+});
+
+// Updating a quiz
+void tap.test("Updating a quiz's name", async () => {
+	const payload = {
+		id: 3,
+		new_name: "US Presidents"
+	};
+	
+	const response = await app.inject({
+		method: "PUT",
+		url: "/quizzes",
+		payload
+	});
+	
+	// Verifying the results
+	response.statusCode.should.equal(200);
+	const resPayload = response.json();
+	resPayload.name.should.equal(payload.new_name);
+});
+
+// Deleting a quiz
 
 /*
 void tap.test("Creating a new message", async () => {

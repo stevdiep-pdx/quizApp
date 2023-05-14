@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { Quiz } from "../db/entities/Quiz.js";
 import { User } from "../db/entities/User.js";
 
-export function MessageRoutesInit(app: FastifyInstance) {
+export function QuizRoutesInit(app: FastifyInstance) {
 	// CRUD ROUTES //
 	// Create a quiz
 	app.post<{ Body: { id: number, quiz_name: string } }>("/quizzes", async (req, reply) => {
