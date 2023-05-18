@@ -2,7 +2,7 @@ import { Entity, Property, Unique, OneToMany, Collection, Cascade } from "@mikro
 import { SoftDeletable } from "mikro-orm-soft-delete";
 import { QuizBaseEntity } from "./QuizBaseEntity.js";
 
-//import { Message } from "./Message.js";
+import { Quiz } from "./Quiz.js";
 
 
 // Soft Delete Reference
@@ -20,15 +20,16 @@ export class User extends QuizBaseEntity {
 	@Property()
 	password!: string;
 
-	/*
+	
 	// Note that these DO NOT EXIST in the database itself!
 	@OneToMany(
-		() => Match,
-		match => match.owner,
-		{cascade: [Cascade.PERSIST, Cascade.REMOVE]}
+		() => Quiz,
+		quiz => quiz.creator,
+		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
 	)
-	matches!: Collection<Match>;
+	quizzes!: Collection<Quiz>;
 
+/*
 	@OneToMany(
 		() => Match,
 		match => match.matchee,
