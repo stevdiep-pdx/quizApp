@@ -1,71 +1,84 @@
 import { FastifyInstance } from "fastify";
+import {Question} from "../db/entities/Question.js";
 import { Quiz } from "../db/entities/Quiz.js";
 import { User } from "../db/entities/User.js";
+import {ICreateQuestion, IUpdateQuestion} from "../types.js";
 
 export function QuestionRoutesInit(app: FastifyInstance) {
 	// CRUD ROUTES //
-	// Create a quiz
-	app.post<{ Body: { id: number, quiz_name: string } }>("/quizzes", async (req, reply) => {
-		const {id, quiz_name} = req.body;
+	// Create a question
+	app.post<{ Body: ICreateQuestion }>("/questions", async (req, reply) => {
+		const {quiz_id, question, answer, option2, option3, option4} = req.body;
 		
 		try {
-			// Find the creator of the quiz
-			const creatorUser = await req.em.findOneOrFail(User, id, {strict: true});
+			// Find parent quiz
+				const quiz = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
 			
-			// Create the new message
-			const newQuiz = await req.em.create(Quiz, {
-				creator: creatorUser,
-				name: quiz_name,
+			// Create the new question
+			const newQuestion = await req.em.create(Question, {
+				quiz,
+				question,
+				answer,
+				option2,
+				option3,
+				option4
 			});
 			
 			// Persist changes
 			await req.em.flush();
 			
 			// Send a reply
-			return reply.send(newQuiz);
+			return reply.send(newQuestion);
 		} catch (err) {
 			return reply.status(500).send({message: err.message});
 		}
 	});
 	
-	// Read all quizzes owned by a user
-	app.search<{ Body: { id: number } }>("/quizzes", async (req, reply) => {
-		const {id} = req.body;
+	// Read all questions for a particular quiz
+	app.search<{ Body: { quiz_id: number } }>("/questions", async (req, reply) => {
+		const {quiz_id} = req.body;
 		
 		try {
-			// Find the user and their quizzes
-			const ownerEntity = await req.em.getReference(User, id);
-			const quizzes = await req.em.find(Quiz, {creator: ownerEntity});
+			// Find the quiz and their questions
+			const quiz = await req.em.getReference(Quiz, quiz_id);
+			const questions = await req.em.find(Question, quiz);
 			
 			// Send a reply back with all quizzes
-			return reply.send(quizzes);
+			return reply.send(questions);
 		} catch (err) {
 			return reply.status(500).send({message: err.message});
 		}
 	});
 	
-	// Update a quiz's name
-	app.put<{ Body: { id: number; new_name: string } }>("/quizzes", async (req, reply) => {
-		const {id, new_name} = req.body;
+	// Change a question and its answers
+	app.put<{ Body: IUpdateQuestion }>("/questions", async (req, reply) => {
+		const {question_id, question, answer, option2, option3, option4} = req.body;
 		
 		try {
-			// Find the quiz with the id and change its name
-			const quiz = await req.em.findOneOrFail(Quiz, id, {strict: true});
-			quiz.name = new_name;
+			// Find the question
+			const questionToChange = await req.em.findOneOrFail(Question, question_id, {strict: true});
+			
+			// Change the members of the question
+			questionToChange.question = question;
+			questionToChange.answer = answer;
+			questionToChange.option2 = option2;
+			questionToChange.option3 = option3;
+			questionToChange.option4 = option4;
+			
 			
 			// Persist changes
-			await req.em.persistAndFlush(quiz);
+			await req.em.flush();
 			
 			// Send a reply
-			return reply.send(quiz);
+			return reply.send(questionToChange);
 		} catch (err) {
 			return reply.status(500).send({message: err.message});
 		}
 	});
 	
-	// Delete a quiz
-	app.delete<{ Body: { my_id: number, quiz_id: number; password: string } }>("/quizzes", async (req, reply) => {
-		const {my_id, quiz_id, password} = req.body;
+	// Delete a question
+	app.delete<{ Body: { my_id: number, question_id: number; password: string } }>("/questions", async (req, reply) => {
+		const {my_id, question_id, password} = req.body;
 		
 		try {
 			// Get the user
@@ -76,11 +89,11 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 				return reply.status(401).send();
 			}
 			
-			// Get the quiz
-			const quizToDelete = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
+			// Get the question
+			const questionToDelete = await req.em.findOneOrFail(Question, question_id, {strict: true});
 			
-			// Delete the quiz and persist
-			await req.em.removeAndFlush(quizToDelete);
+			// Delete the question and persist
+			await req.em.removeAndFlush(questionToDelete);
 			
 			// Send a response
 			return reply.send();

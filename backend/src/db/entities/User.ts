@@ -22,12 +22,12 @@ export class User extends QuizBaseEntity {
 
 	
 	// Note that these DO NOT EXIST in the database itself!
-	@OneToMany(
-		() => Quiz,
-		quiz => quiz.creator,
-		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
-	)
-	quizzes!: Collection<Quiz>;
+	// @OneToMany(
+	// 	() => Quiz,
+	// 	quiz => quiz.creator,
+	// 	{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
+	// )
+	// quizzes!: Collection<Quiz>;
 
 /*
 	@OneToMany(

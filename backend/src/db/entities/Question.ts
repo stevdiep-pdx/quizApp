@@ -12,4 +12,17 @@ export class Question extends QuizBaseEntity {
 	// The quiz name
 	@Property()
 	question!: string;
+	
+	// 'answer' contains the true answer to the question, the others are possibilities
+	@Property()
+	answer!: string;
+	
+	@Property()
+	option2!: string;
+	
+	@Property()
+	option3!: string;
+	
+	@Property()
+	option4!: string;
 }
