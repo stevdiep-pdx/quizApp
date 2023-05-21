@@ -46,5 +46,13 @@ export class QuestionSeeder extends Seeder {
 			option3: "4",
 			option4: "5"
 		});
+		context.question6 = em.create(Question, {
+			quiz: context.quiz4,
+			question: "Which of these states is on the west coast?",
+			answer: "California",
+			option2: "Florida",
+			option3: "New York",
+			option4: "Utah"
+		});
 	}
 }

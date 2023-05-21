@@ -202,8 +202,7 @@ void tap.test("Updating a quiz's name", async () => {
 });
 
 // Deleting a quiz
-// Deleting a user
-void tap.test("Deleting a user", async () => {
+void tap.test("Deleting a quiz", async () => {
 	let payload = {
 		my_id: 1,
 		quiz_id: 1,
@@ -220,7 +219,7 @@ void tap.test("Deleting a user", async () => {
 	response.statusCode.should.equal(500);
 	
 	// Invalid ID should have a bad response code
-	payload = { ...payload, my_id: 1000000 };
+	payload = { ...payload, quiz_id: 1000000 };
 	
 	response = await app.inject({
 		method: "DELETE",
@@ -255,6 +254,122 @@ void tap.test("Deleting a user", async () => {
 	response = await app.inject({
 		method: "DELETE",
 		url: "/quizzes",
+		payload
+	});
+	
+	response.statusCode.should.equal(200);
+});
+
+
+
+// QUESTIONS CRUD TEST //
+
+// Creating a question
+void tap.test("Creating a new question", async () => {
+	const payload = {
+		quiz_id: 4,
+		question: "What is the capitol of Oregon?",
+		answer: "Salem",
+		option2: "Portland",
+		option3: "Gresham",
+		option4: "Troutdale"
+	};
+	
+	const response = await app.inject({
+		method: "POST",
+		url: "/questions",
+		payload
+	});
+	
+	// Verifying the results
+	response.statusCode.should.equal(200);
+	response.payload.should.not.equal(payload);
+	const resPayload = response.json();
+	resPayload.quiz.id.should.equal(4);
+	resPayload.answer.should.equal(payload.answer);
+});
+
+// Reading all questions from a quiz
+void tap.test("Getting all questions from a quiz", async () => {
+	const payload = {
+		quiz_id: 4
+	};
+	
+	const response = await app.inject({
+		method: "SEARCH",
+		url: "/questions",
+		payload
+	});
+	
+	// Verifying the results
+	response.statusCode.should.equal(200);
+});
+
+// Updating a question
+void tap.test("Updating a question", async () => {
+	const payload = {
+		question_id: 7,
+		question: "What is the capitol of the state of Oregon?",
+		answer: "Salem",
+		option2: "Portland",
+		option3: "Gresham",
+		option4: "Troutdale"
+	};
+	
+	const response = await app.inject({
+		method: "PUT",
+		url: "/questions",
+		payload
+	});
+	
+	// Verifying the results
+	response.statusCode.should.equal(200);
+	const resPayload = response.json();
+	resPayload.question.should.equal(payload.question);
+});
+
+// Deleting a question
+void tap.test("Deleting a question", async () => {
+	// Invalid ID should have a bad response code
+	let payload = {
+		my_id: 2,
+		question_id: 100000,
+		password: "password"
+	};
+	
+	let response = await app.inject({
+		method: "DELETE",
+		url: "/questions",
+		payload
+	});
+	
+	response.statusCode.should.equal(500);
+	
+	// Invalid password should have a bad response code
+	payload = {
+		my_id: 2,
+		question_id: 7,
+		password: "password2"
+	};
+	
+	response = await app.inject({
+		method: "DELETE",
+		url: "/questions",
+		payload
+	});
+	
+	response.statusCode.should.equal(401);
+	
+	// Good delete
+	payload = {
+		my_id: 2,
+		question_id: 7,
+		password: "password"
+	};
+	
+	response = await app.inject({
+		method: "DELETE",
+		url: "/questions",
 		payload
 	});
 	

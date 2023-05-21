@@ -12,7 +12,7 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 		
 		try {
 			// Find parent quiz
-				const quiz = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
+			const quiz = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
 			
 			// Create the new question
 			const newQuestion = await req.em.create(Question, {
@@ -40,8 +40,8 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 		
 		try {
 			// Find the quiz and their questions
-			const quiz = await req.em.getReference(Quiz, quiz_id);
-			const questions = await req.em.find(Question, quiz);
+			const quizEntity = await req.em.getReference(Quiz, quiz_id);
+			const questions = await req.em.find(Question, {quiz: quizEntity});
 			
 			// Send a reply back with all quizzes
 			return reply.send(questions);
