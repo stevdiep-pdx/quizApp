@@ -1,13 +1,9 @@
 import type { Dictionary, EntityManager } from "@mikro-orm/core";
 import { Seeder } from '@mikro-orm/seeder';
 import { Quiz } from "../entities/Quiz.js";
-import {User} from "../entities/User.js";
 
 export class QuizSeeder extends Seeder {
 	async run(em: EntityManager, context: Dictionary): Promise<void> {
-
-		const quizRepo = em.getRepository(Quiz);
-
 		// https://mikro-orm.io/docs/seeding#shared-context
 		
 		context.quiz1 = em.create(Quiz, {
@@ -34,7 +30,5 @@ export class QuizSeeder extends Seeder {
 			creator: context.user3,
 			name: "Adding",
 		});
-		
-
 	}
 }
