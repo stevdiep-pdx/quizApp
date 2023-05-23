@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify";
+import {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import { Quiz } from "../db/entities/Quiz.js";
 import { User } from "../db/entities/User.js";
 
@@ -83,10 +83,24 @@ export function QuizRoutesInit(app: FastifyInstance) {
 			await req.em.removeAndFlush(quizToDelete);
 			
 			// Send a response
-			return reply.send();
+			return reply.send(quizToDelete);
 		} catch (err) {
 			return reply.status(500).send({ message: err.message });
 		}
+	});
+	
+	// Get a random quiz
+	app.get("/quizzes", async (req, reply) => {
+		// Get the quiz repo and count all of the rows
+		const quizRepo = req.em.getRepository(Quiz);
+		const totalCount = await quizRepo.count();
+		
+		// Choose a random row
+		const randomOffset = Math.floor(Math.random() * totalCount);
+		
+		// Get the quiz in that row and return it
+		const randomQuiz = await req.em.find(Quiz, {}, {limit: 1, offset: randomOffset});
+		reply.send(randomQuiz);
 	});
 }
 

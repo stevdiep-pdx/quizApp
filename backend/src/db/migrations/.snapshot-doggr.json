@@ -183,7 +183,8 @@
             "id"
           ],
           "referencedTableName": "public.users",
-          "updateRule": "cascade"
+          "deleteRule": "cascade",
+          "updateRule": "set null"
         }
       }
     },
@@ -308,7 +309,8 @@
             "id"
           ],
           "referencedTableName": "public.quiz",
-          "updateRule": "cascade"
+          "deleteRule": "cascade",
+          "updateRule": "set null"
         }
       }
     }

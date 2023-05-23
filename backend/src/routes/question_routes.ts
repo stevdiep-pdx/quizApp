@@ -96,7 +96,7 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 			await req.em.removeAndFlush(questionToDelete);
 			
 			// Send a response
-			return reply.send();
+			return reply.send(questionToDelete);
 		} catch (err) {
 			return reply.status(500).send({message: err.message});
 		}
