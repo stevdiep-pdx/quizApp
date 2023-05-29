@@ -1,7 +1,5 @@
 import { BaseEntity, PrimaryKey, Property } from "@mikro-orm/core";
-import { SoftDeletable } from "mikro-orm-soft-delete";
 
-@SoftDeletable(() => QuizBaseEntity, "deleted_at", () => new Date())
 //https://mikro-orm.io/docs/defining-entities/#using-mikroorms-baseentity-previously-wrappedentity
 export class QuizBaseEntity extends BaseEntity<QuizBaseEntity, "id"> {
   @PrimaryKey()

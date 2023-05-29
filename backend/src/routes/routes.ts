@@ -2,8 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { FastifyInstance } from "fastify";
+import {QuestionRoutesInit} from "./question_routes.js";
 import { QuizRoutesInit } from "./quiz_routes.js";
-//import { MessageRoutesInit } from "./message_routes.js";
 import { UserRoutesInit } from "./user_routes.js";
 
 /** This function creates all backend routes for the site
@@ -19,7 +19,7 @@ async function QuizRoutes(app: FastifyInstance, _options = {}) {
 
 	UserRoutesInit(app);
 	QuizRoutesInit(app);
-	//MessageRoutesInit(app);
+	QuestionRoutesInit(app);
 }
 
 export default QuizRoutes;

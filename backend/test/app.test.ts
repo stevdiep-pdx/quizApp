@@ -185,7 +185,7 @@ void tap.test("Getting all quizzes for a user", async () => {
 // Updating a quiz
 void tap.test("Updating a quiz's name", async () => {
 	const payload = {
-		id: 3,
+		quiz_id: 3,
 		new_name: "US Presidents"
 	};
 	
@@ -202,8 +202,7 @@ void tap.test("Updating a quiz's name", async () => {
 });
 
 // Deleting a quiz
-// Deleting a user
-void tap.test("Deleting a user", async () => {
+void tap.test("Deleting a quiz", async () => {
 	let payload = {
 		my_id: 1,
 		quiz_id: 1,
@@ -220,7 +219,7 @@ void tap.test("Deleting a user", async () => {
 	response.statusCode.should.equal(500);
 	
 	// Invalid ID should have a bad response code
-	payload = { ...payload, my_id: 1000000 };
+	payload = { ...payload, quiz_id: 1000000 };
 	
 	response = await app.inject({
 		method: "DELETE",
@@ -261,158 +260,118 @@ void tap.test("Deleting a user", async () => {
 	response.statusCode.should.equal(200);
 });
 
-/*
-void tap.test("Creating a new message", async () => {
-	const payload = {
-		sender_id: 1,
-		receiver_id: 3,
-		message: "Hi"
-	};
 
+
+// QUESTIONS CRUD TEST //
+
+// Creating a question
+void tap.test("Creating a new question", async () => {
+	const payload = {
+		quiz_id: 4,
+		question: "What is the capitol of Oregon?",
+		answer: "Salem",
+		option2: "Portland",
+		option3: "Gresham",
+		option4: "Troutdale"
+	};
+	
 	const response = await app.inject({
 		method: "POST",
-		url: "/messages",
+		url: "/questions",
 		payload
 	});
-
+	
+	// Verifying the results
 	response.statusCode.should.equal(200);
 	response.payload.should.not.equal(payload);
 	const resPayload = response.json();
-	resPayload.message.should.equal(payload.message);
+	resPayload.quiz.id.should.equal(4);
+	resPayload.answer.should.equal(payload.answer);
 });
 
-void tap.test("Reading messages sent to a specific user", async () => {
+// Reading all questions from a quiz
+void tap.test("Getting all questions from a quiz", async () => {
 	const payload = {
-		receiver_id: 3
+		quiz_id: 4
 	};
-
+	
 	const response = await app.inject({
 		method: "SEARCH",
-		url: "/messages/received",
+		url: "/questions",
 		payload
 	});
-
+	
+	// Verifying the results
 	response.statusCode.should.equal(200);
 });
 
-void tap.test("Reading messages sent BY a specific user", async () => {
+// Updating a question
+void tap.test("Updating a question", async () => {
 	const payload = {
-		sender_id: 1
+		question_id: 7,
+		question: "What is the capitol of the state of Oregon?",
+		answer: "Salem",
+		option2: "Portland",
+		option3: "Gresham",
+		option4: "Troutdale"
 	};
-
-	const response = await app.inject({
-		method: "SEARCH",
-		url: "/messages/sent",
-		payload
-	});
-
-	response.statusCode.should.equal(200);
-});
-
-void tap.test("Updating a sent message", async () => {
-	const payload = {
-		message_id: 1,
-		message: "New message text"
-	};
-
+	
 	const response = await app.inject({
 		method: "PUT",
-		url: "/messages",
+		url: "/questions",
 		payload
 	});
-
+	
+	// Verifying the results
 	response.statusCode.should.equal(200);
 	const resPayload = response.json();
-	resPayload.message.should.equal(payload.message);
+	resPayload.question.should.equal(payload.question);
 });
 
-void tap.test("Deleting a specific message", async () => {
+// Deleting a question
+void tap.test("Deleting a question", async () => {
+	// Invalid ID should have a bad response code
 	let payload = {
-		my_id: 1,
-		message_id: 5,
+		my_id: 2,
+		question_id: 100000,
 		password: "password"
 	};
-
+	
 	let response = await app.inject({
 		method: "DELETE",
-		url: "/messages",
+		url: "/questions",
 		payload
 	});
-
-	response.statusCode.should.equal(200);
-
-	// ensure to check that my_id is validity checked
-	payload = { ...payload, my_id: 1000000 };
-
-	response = await app.inject({
-		method: "DELETE",
-		url: "/messages",
-		payload
-	});
-
+	
 	response.statusCode.should.equal(500);
-
-	// ensure to check that "bad" passwords fail, too!
-	payload = { ...payload, my_id: 1, password: "password2" };
-
+	
+	// Invalid password should have a bad response code
+	payload = {
+		my_id: 2,
+		question_id: 7,
+		password: "password2"
+	};
+	
 	response = await app.inject({
 		method: "DELETE",
-		url: "/messages",
+		url: "/questions",
 		payload
 	});
-
+	
 	response.statusCode.should.equal(401);
-});
-
-void tap.test("Deleting all sent messages", async () => {
-	const payload = {
-		my_id: 1,
+	
+	// Good delete
+	payload = {
+		my_id: 2,
+		question_id: 7,
 		password: "password"
 	};
-
-	const response = await app.inject({
+	
+	response = await app.inject({
 		method: "DELETE",
-		url: "/messages/all",
+		url: "/questions",
 		payload
 	});
-
+	
 	response.statusCode.should.equal(200);
 });
-
-void tap.test("Deleting all sent messages fails with incorrect password", async () => {
-	const payload = {
-		my_id: 3,
-		password: "WRONG"
-	};
-
-	const response = await app.inject({
-		method: "DELETE",
-		url: "/messages/all",
-		payload
-	});
-
-	console.log(response.payload);
-
-	response.statusCode.should.equal(401);
-});
-
-void tap.test("Testing message bad words filter", async () => {
-	const payload = {
-		sender_id: 1,
-		receiver_id: 2,
-		message: "Hi you shit"
-	};
-
-	const response = await app.inject({
-		method: "POST",
-		url: "/messages",
-		payload
-	});
-
-	response.statusCode.should.equal(500);
-	response.payload.should.not.equal(payload);
-	const resPayload = response.json();
-	resPayload.message.should.equal("Bad words naughty list added.");
-	resPayload.message.should.not.equal("Bad words naughty list added!");
-});
-*/
