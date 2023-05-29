@@ -1,24 +1,15 @@
+import bcrypt from "bcrypt";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { SOFT_DELETABLE_FILTER } from "mikro-orm-soft-delete";
 import { User } from "../db/entities/User.js";
 import { ICreateUsersBody, IUpdateUsersBody } from "../types.js";
 
 export function UserRoutesInit(app: FastifyInstance) {
 	// TESTING ROUTES //
-	// Route that returns all users, soft deleted and not
+	// Route that returns all users
 	app.get("/dbTest", async (request: FastifyRequest, _reply: FastifyReply) => {
-		return request.em.find(User, {}, { filters: { [SOFT_DELETABLE_FILTER]: false } });
+		return request.em.find(User, {});
 	});
-
-	// Route that returns all users who ARE NOT SOFT DELETED
-	app.get("/users", async (req, reply) => {
-		try {
-			const theUser = await req.em.find(User, {});
-			reply.send(theUser);
-		} catch (err) {
-			reply.status(500).send(err);
-		}
-	});
+	
 
 
 
@@ -30,10 +21,11 @@ export function UserRoutesInit(app: FastifyInstance) {
 
 		try {
 			// Make a new user
+			const hashedPw = await bcrypt.hash(password, 10);
 			const newUser = await req.em.create(User, {
 				name,
 				email,
-				password
+				password: hashedPw
 			});
 
 			// Persist changes
@@ -103,4 +95,36 @@ export function UserRoutesInit(app: FastifyInstance) {
 			return reply.status(500).send(err);
 		}
 	});
+	
+	
+	
+	// Login
+	app.post<{
+		Body: {
+			email: string,
+			password: string,
+		}
+	}>("/login", async (req, reply) => {
+		const { email, password } = req.body;
+		
+		try {
+			const theUser = await req.em.findOneOrFail(User, {email}, { strict: true });
+			
+			const hashCompare = await bcrypt.compare(password, theUser.password);
+			if (hashCompare) {
+				const userId = theUser.id;
+				const token = app.jwt.sign({ userId });
+				
+				reply.send({ token });
+			} else {
+				app.log.info(`Password validation failed -- ${password} vs ${theUser.password}`);
+				reply.status(401)
+					.send("Incorrect Password");
+			}
+		} catch (err) {
+			reply.status(500)
+				.send(err);
+		}
+	});
+	
 }
