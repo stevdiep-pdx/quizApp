@@ -6,13 +6,13 @@ import { Match } from "@/Components/Match.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import { Link, Route, Routes } from "react-router-dom";
-import "@css/DoggrStyles.css";
+import "@css/QuizStyles.css";
 
-export function DoggrRouter() {
+export function QuizRouter() {
 	const auth = useAuth();
 
 	return (
-		<div className={"doggrfancy"}>
+		<div className={"quizfancy"}>
 			<nav className="bg-blue-800 rounded-b shadow-lg mb-4">
 				<div className="navbar justify-center">
 					<div className={"navbar-center lg:flex"}>

@@ -1,10 +1,10 @@
 import { Home } from "@/Components/HomePage.tsx";
 import { Login } from "@/Components/Login.tsx";
 import { Match } from "@/Components/Match.tsx";
-import { DoggrRouter } from "@/DoggrRoutes.tsx";
+import { QuizRouter } from "@/QuizRoutes.tsx";
 import { AuthProvider } from "@/Services/Auth.tsx";
 import { Link, Route, Routes, Router, BrowserRouter } from "react-router-dom";
-import "@css/DoggrStyles.css";
+import "@css/QuizStyles.css";
 
 // This is our base React Component
 export function App() {
@@ -12,7 +12,7 @@ export function App() {
 		<BrowserRouter>
 			<AuthProvider>
 				<div className="App doggr">
-					<DoggrRouter/>
+					<QuizRouter/>
 				</div>
 			</AuthProvider>
 		</BrowserRouter>

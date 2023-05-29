@@ -9,36 +9,15 @@ export enum SubmissionStatus {
 
 export const CreateProfile = () => {
 
-	const [selectedFile, setSelectedFile] = useState();
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [petType, setPetType] = useState("");
 	const [submitted, setSubmitted] = useState(SubmissionStatus.NotSubmitted);
 
-	const onFileChange = ev => {
-		setSelectedFile(ev.target.files[0]);
-	};
+	const onCreate = (ev) => {
+		console.log("About to create");
 
-	const onUploadFile = (ev) => {
-		const formData = new FormData();
-
-		formData.append("name", name);
-		formData.append('email', email);
-		formData.append("password", password);
-		formData.append("petType", petType);
-		formData.append('file', selectedFile);
-
-		// @ts-ignore
-		formData.append("fileName", selectedFile.name);
-
-		const config = {
-			headers: {
-				'content-type': 'multipart/form-data',
-			}
-		};
-
-		httpClient.post("/users", formData, config)
+		httpClient.post("/users", {name, email, password})
 			.then( (response) => {
 				console.log("Got response from uploading file", response.status);
 				if (response.status === 200) {
@@ -72,20 +51,6 @@ export const CreateProfile = () => {
 			</div>
 
 			<div className="flex flex-col w-full mb-5">
-				<label htmlFor="petType" className="text-blue-300 mb-2">Pet Type</label>
-				<input
-					placeholder="Dog..."
-					type="text"
-					id="petType"
-					required
-					value={petType}
-					onChange={e => setPetType(e.target.value)}
-					name="petType"
-					className="input input-bordered"
-				/>
-			</div>
-
-			<div className="flex flex-col w-full mb-5">
 				<label htmlFor="email" className="text-blue-300 mb-2">Email:</label>
 				<input
 					placeholder="email@email.com"
@@ -113,22 +78,10 @@ export const CreateProfile = () => {
 				/>
 			</div>
 
-			<div className="flex flex-col w-full mb-5">
-				<label htmlFor="profilepic" className="text-blue-300 mb-2">Upload a profile picture:</label>
-				<input
-					type={"file"}
-					className={"doggrFileUpload input input-bordered"}
-					id={"profilepic"}
-					name="profilepic"
-					accept={"image/png, image/jpeg"}
-					onChange={onFileChange}
-				/>
-			</div>
-
 			{
-				name != null && password != null && selectedFile != null &&
+				name != null && password != null &&
 				<div>
-					<button className="btn btn-primary btn-circle" onClick={onUploadFile}>Create</button>
+					<button className="btn btn-primary btn-circle" onClick={onCreate}>Create</button>
 				</div>
 			}
 		</div>

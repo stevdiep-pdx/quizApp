@@ -1,6 +1,6 @@
-import { ProfileType } from "@/DoggrTypes.ts";
+import { ProfileType } from "@/QuizTypes.ts";
 import { useEffect } from "react";
-import "@css/DoggrStyles.css";
+import "@css/QuizStyles.css";
 
 export type ProfileProps = ProfileType & {
 	onLikeButtonClick: () => void;
