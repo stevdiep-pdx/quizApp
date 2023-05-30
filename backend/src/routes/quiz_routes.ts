@@ -89,8 +89,13 @@ export function QuizRoutesInit(app: FastifyInstance) {
 		}
 	});
 	
+	// Get all quizzes
+	app.get("/quizzes", async (request: FastifyRequest, _reply: FastifyReply) => {
+		return request.em.find(Quiz, {});
+	});
+	
 	// Get a random quiz
-	app.get("/quizzes", async (req, reply) => {
+	app.get("/quizzes/random", async (req, reply) => {
 		// Get the quiz repo and count all of the rows
 		const quizRepo = req.em.getRepository(Quiz);
 		const totalCount = await quizRepo.count();

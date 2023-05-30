@@ -11,7 +11,7 @@ export function App() {
 	return (
 		<BrowserRouter>
 			<AuthProvider>
-				<div className="App doggr">
+				<div className="App quiz">
 					<QuizRouter/>
 				</div>
 			</AuthProvider>

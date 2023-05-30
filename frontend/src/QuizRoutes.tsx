@@ -4,6 +4,7 @@ import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
 import { Match } from "@/Components/Match.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
+import {QuizzesList} from "@/Components/QuizzesList.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import { Link, Route, Routes } from "react-router-dom";
 import "@css/QuizStyles.css";
@@ -20,6 +21,7 @@ export function QuizRouter() {
 						<ul className={"menu menu-horizontal"}>
 							<li><Link to="/">Home</Link></li>
 							<li><Link to="/match"> Match</Link></li>
+							<li><Link to="/quizzes"> Quizzes</Link></li>
 							{auth?.token != null ? (
 								<li><Link to="/logout">Logout</Link></li>
 							) : (
@@ -39,6 +41,7 @@ export function QuizRouter() {
 				<Route path="/create" element={<CreateProfile/>}/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
+				<Route path="/quizzes" element={<QuizzesList />} />
 			</Routes>
 		</div>
 	);
