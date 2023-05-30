@@ -1,11 +1,14 @@
 import {Quiz} from "@/Components/Quiz.tsx";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 // Display all quizzes and a button to navigate users to a page where they can quiz themselves
 export const QuizzesList = () => {
 	// Initial list of quizzes
 	const [quizzes, setQuizzes] = useState([]);
+	
+	const navigate = useNavigate();
 	
 	// Get all quizzes
 	useEffect(() => {
@@ -20,6 +23,9 @@ export const QuizzesList = () => {
 	// When the play button is clicked, go to the page to play the quiz and pass the quiz id
 	const onPlayButtonClick = (name, id) => {
 		console.log(`play ${name} ${id}`);
+		
+		// Navigate to the questions page
+		navigate("/questions", { state: {name, id} });
 	};
 	
 	// Build a list of quizzes using map()

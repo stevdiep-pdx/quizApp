@@ -8,9 +8,10 @@ export const Home = () => {
 };
 
 export function Title() {
-	return <h1>Quiz</h1>;
+	return <h1>Quiz App Home Page</h1>;
 }
 
 export function Subtitle() {
-	return <h3>Test your knowledge</h3>;
+	
+	return <h2>Steven Diep</h2>;
 }
