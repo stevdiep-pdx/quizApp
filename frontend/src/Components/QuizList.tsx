@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 
 // Display all quizzes and a button to navigate users to a page where they can quiz themselves
-export const QuizzesList = () => {
+export const QuizList = () => {
 	// Initial list of quizzes
 	const [quizzes, setQuizzes] = useState([]);
 	

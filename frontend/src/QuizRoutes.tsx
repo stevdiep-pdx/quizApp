@@ -4,8 +4,8 @@ import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
 import { Match } from "@/Components/Match.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
-import {QuestionsList} from "@/Components/QuestionsList.tsx";
-import {QuizzesList} from "@/Components/QuizzesList.tsx";
+import {QuestionList} from "@/Components/QuestionList.tsx";
+import {QuizList} from "@/Components/QuizList.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import { Link, Route, Routes } from "react-router-dom";
 import "@css/QuizStyles.css";
@@ -42,8 +42,8 @@ export function QuizRouter() {
 				<Route path="/create" element={<CreateProfile/>}/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
-				<Route path="/quizzes" element={<QuizzesList />} />
-				<Route path="/questions" element={<QuestionsList />} />
+				<Route path="/quizzes" element={<QuizList />} />
+				<Route path="/questions" element={<QuestionList />} />
 			</Routes>
 		</div>
 	);

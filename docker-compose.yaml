@@ -38,6 +38,16 @@ services:
       postgres:
         condition: service_healthy
 
+  frontend:
+    container_name: frontend
+    build: ./frontend/
+    restart: always
+    ports:
+      - "88:80"
+    environment:
+      - API_HOST=backend
+      - PORT=8080
+
 volumes:
   db:
     driver: local
