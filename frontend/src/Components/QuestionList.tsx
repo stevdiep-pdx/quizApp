@@ -13,8 +13,8 @@ export const QuestionList = () => {
 	const getQuestions = async (id) => {
 		QuestionService.send(id)
 			.then(response => {
-				console.log(response);
-				setQuestions(response.data);
+				setQuestions(response);
+				console.log("response: ", response);
 			})
 			.catch(err => {
 				console.error(err);
@@ -23,7 +23,7 @@ export const QuestionList = () => {
 	
 	// Get all questions when the page is rendered
 	useEffect(() => {
-		getQuestions(location.state.id).then(() => console.log("Got stuff"));
+		getQuestions(location.state.id).then(() => console.log("got stuff"));
 	}, [location.state.id]);
 	
 	return (
