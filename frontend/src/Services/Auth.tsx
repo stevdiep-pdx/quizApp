@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }: any) => {
 
 	const handleLogout = () => {
 		setToken(null);
-		localStorage.removeItem("token");
+		localStorage.removeItem("user");
 	};
 
 	const saveToken = (thetoken) => {

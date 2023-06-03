@@ -6,6 +6,7 @@ import { Match } from "@/Components/Match.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
 import {QuestionList} from "@/Components/QuestionList.tsx";
 import {QuizList} from "@/Components/QuizList.tsx";
+import {SignUp} from "@/Components/SignUp.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import { Link, Route, Routes } from "react-router-dom";
 import "@css/QuizStyles.css";
@@ -39,7 +40,7 @@ export function QuizRouter() {
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/match" element={<ProtectedRoute><Match /></ProtectedRoute>} />
-				<Route path="/create" element={<CreateProfile/>}/>
+				<Route path="/create" element={<SignUp />}/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
 				<Route path="/quizzes" element={<QuizList />} />

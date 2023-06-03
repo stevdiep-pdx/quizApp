@@ -2,6 +2,26 @@ import bcrypt from "bcrypt";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { User } from "../db/entities/User.js";
 import { ICreateUsersBody, IUpdateUsersBody } from "../types.js";
+import { OAuth2Client } from "google-auth-library";
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+// Function to verify the token passed
+const verifyGoogleToken = async (token) => {
+	try {
+		console.log("token:", token)
+		const ticket = await client.verifyIdToken({
+			idToken: token,
+			audience: GOOGLE_CLIENT_ID,
+		});
+		console.log("passed verify");
+		return { payload: ticket.getPayload() };
+	} catch (error) {
+		console.log("verify function messed up");
+		return { error: "Invalid user detected. Please try again" };
+	}
+}
 
 export function UserRoutesInit(app: FastifyInstance) {
 	// TESTING ROUTES //
@@ -99,28 +119,120 @@ export function UserRoutesInit(app: FastifyInstance) {
 	
 	
 	// Login
+	// app.post<{
+	// 	Body: {
+	// 		email: string,
+	// 		password: string,
+	// 	}
+	// }>("/login", async (req, reply) => {
+	// 	const { email, password } = req.body;
+	//
+	// 	try {
+	// 		const theUser = await req.em.findOneOrFail(User, {email}, { strict: true });
+	//
+	// 		const hashCompare = await bcrypt.compare(password, theUser.password);
+	// 		if (hashCompare) {
+	// 			const userId = theUser.id;
+	// 			const token = app.jwt.sign({ userId });
+	//
+	// 			reply.send({ token });
+	// 		} else {
+	// 			app.log.info(`Password validation failed -- ${password} vs ${theUser.password}`);
+	// 			reply.status(401)
+	// 				.send("Incorrect Password");
+	// 		}
+	// 	} catch (err) {
+	// 		reply.status(500)
+	// 			.send(err);
+	// 	}
+	// });
+	
+	// Google Auth Signup
 	app.post<{
 		Body: {
-			email: string,
-			password: string,
+			credential
 		}
+	}>("/signup", async (req, reply) => {
+		console.log("in sign up rroute", req.body.credential);
+		try {
+			// Verify the response
+			const verificationResponse = await verifyGoogleToken(req.body.credential);
+			
+			// Send a message if it is bad
+			if (verificationResponse.error) {
+				return reply.status(401)
+					.send(verificationResponse.error);
+			}
+			
+			// Get the profile
+			const profile = verificationResponse?.payload;
+			
+			// Make a new user
+			const newUser = await req.em.create(User, {
+				name: "test",
+				email: profile.email,
+				password: "password"
+			});
+			
+			// Persist changes
+			await req.em.flush();
+			
+			// Get the user and send a token back with the id
+			// Search for the user using the email from the profile
+			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
+			
+			
+			const userId = theUser.id;
+			const token = app.jwt.sign({ userId });
+			// reply.send({ token });
+
+			console.log("in signup");
+			reply.status(201).send({
+				message: "Signup was successful",
+				user: {
+					firstName: profile?.given_name,
+					lastName: profile?.family_name,
+					picture: profile?.picture,
+					email: profile?.email,
+					token: app.jwt.sign({ email: profile?.email }),
+				},
+			});
+
+			
+		} catch (err) {
+			reply.status(500)
+				.send(err);
+		}
+	});
+	
+	// Google Auth Login
+	app.post<{
+			Body: {
+				credential
+			}
 	}>("/login", async (req, reply) => {
-		const { email, password } = req.body;
 		
 		try {
-			const theUser = await req.em.findOneOrFail(User, {email}, { strict: true });
+			// Verify the response
+			const verificationResponse = await verifyGoogleToken(req.body.credential);
 			
-			const hashCompare = await bcrypt.compare(password, theUser.password);
-			if (hashCompare) {
-				const userId = theUser.id;
-				const token = app.jwt.sign({ userId });
-				
-				reply.send({ token });
-			} else {
-				app.log.info(`Password validation failed -- ${password} vs ${theUser.password}`);
-				reply.status(401)
-					.send("Incorrect Password");
+			// Send a message if it is bad
+			if (verificationResponse.error) {
+				return reply.status(400)
+					.send(verificationResponse.error);
 			}
+			
+			// Get the profile
+			const profile = verificationResponse?.payload;
+			
+			// Search for the user using the email from the profile
+			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
+			
+			
+			const userId = theUser.id;
+			const token = app.jwt.sign({ userId });
+				
+			reply.send({ token });
 		} catch (err) {
 			reply.status(500)
 				.send(err);
