@@ -92,7 +92,7 @@ export const useAuth = () => {
 };
 
 function getTokenFromStorage() {
-	const tokenString = localStorage.getItem("token");
+	const tokenString = localStorage.getItem("user");
 	console.log(tokenString);
 	if ( typeof tokenString === 'undefined' || tokenString === null) {
 		console.log("No token found");

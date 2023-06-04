@@ -11,14 +11,17 @@ const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 const verifyGoogleToken = async (token) => {
 	try {
 		console.log("token:", token)
+		
 		const ticket = await client.verifyIdToken({
 			idToken: token,
-			audience: GOOGLE_CLIENT_ID,
+			// @ts-ignore
+			requiredAudience: GOOGLE_CLIENT_ID,
 		});
 		console.log("passed verify");
+		// @ts-ignore
 		return { payload: ticket.getPayload() };
 	} catch (error) {
-		console.log("verify function messed up");
+		console.log("verify function messed up", error);
 		return { error: "Invalid user detected. Please try again" };
 	}
 }
@@ -150,7 +153,7 @@ export function UserRoutesInit(app: FastifyInstance) {
 	// Google Auth Signup
 	app.post<{
 		Body: {
-			credential
+			credential: string
 		}
 	}>("/signup", async (req, reply) => {
 		console.log("in sign up rroute", req.body.credential);
@@ -160,7 +163,7 @@ export function UserRoutesInit(app: FastifyInstance) {
 			
 			// Send a message if it is bad
 			if (verificationResponse.error) {
-				return reply.status(401)
+				return reply.status(400)
 					.send(verificationResponse.error);
 			}
 			
@@ -184,19 +187,11 @@ export function UserRoutesInit(app: FastifyInstance) {
 			
 			const userId = theUser.id;
 			const token = app.jwt.sign({ userId });
+
 			// reply.send({ token });
 
 			console.log("in signup");
-			reply.status(201).send({
-				message: "Signup was successful",
-				user: {
-					firstName: profile?.given_name,
-					lastName: profile?.family_name,
-					picture: profile?.picture,
-					email: profile?.email,
-					token: app.jwt.sign({ email: profile?.email }),
-				},
-			});
+			reply.status(201).send({token});
 
 			
 		} catch (err) {
@@ -229,10 +224,15 @@ export function UserRoutesInit(app: FastifyInstance) {
 			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
 			
 			
+			
 			const userId = theUser.id;
 			const token = app.jwt.sign({ userId });
-				
-			reply.send({ token });
+			
+			// reply.send({ token });
+			
+			console.log("in signin");
+			reply.status(201).send({token});
+			
 		} catch (err) {
 			reply.status(500)
 				.send(err);

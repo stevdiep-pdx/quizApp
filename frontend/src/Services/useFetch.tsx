@@ -25,13 +25,13 @@ export const useFetch = (url) => {
 				return res.json();
 			})
 			.then((data) => {
-				if (data?.user) {
-					console.log(data.user);
-					localStorage.setItem("user", JSON.stringify(data?.user));
+				if (data?.token) {
+					console.log(data.token);
+					localStorage.setItem("user", JSON.stringify(data?.token));
 					window.location.reload();
 				}
 
-				throw new Error(data?.message || data);
+				// throw new Error(data?.message || data);
 			})
 			.catch((error) => {
 				setError(error?.message);
