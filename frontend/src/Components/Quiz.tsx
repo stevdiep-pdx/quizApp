@@ -1,5 +1,3 @@
-import { ProfileType } from "@/QuizTypes.ts";
-import { useEffect } from "react";
 import "@css/QuizStyles.css";
 
 export type QuizProps = {
