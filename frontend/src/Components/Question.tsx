@@ -16,6 +16,12 @@ export function Question(props: QuestionProps) {
 	const questionSet = [answer, option2, option3, option4];
 	
 	// Randomize the set of questions
+	for(let i = questionSet.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		const temp = questionSet[i];
+		questionSet[i] = questionSet[j];
+		questionSet[j] = temp;
+	}
 	
 	// The quiz and how it should look
 	return (
