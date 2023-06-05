@@ -1,6 +1,5 @@
 import {Question} from "@/Components/Question.tsx";
 import {Quiz} from "@/Components/Quiz.tsx";
-import {QuestionType} from "@/QuizTypes.ts";
 import {QuestionService} from "@/Services/QuestionService.tsx";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
@@ -26,17 +25,24 @@ export const QuestionList = () => {
 		getQuestions(location.state.id).then(setQuestions);
 	}, [location.state.id]);
 	
-	const onOptionClick = () => {
-		if(index < questions.length - 1)
+	// When an option is clicked
+	const onOptionClick = (guess: string, answer: string) => {
+		
+		// Check the answer they gave and see if it is correct; if it is, add a point
+		if (guess === answer)
+			setScore(score + 1);
+		
+		// Increase the index to get the next question
+		if(index < questions.length)
 			setIndex(index + 1);
 	};
 	
-	// If the questions list is not empty (length != 0), display the first question
+	// If the questions list is not empty (length != 0) and we haven't reached the end of the quiz, questions
 	// Increment the index to display the next question
 	return (
 		<div>
 			<h1>Questions for the Quiz: {location.state.name} id: {location.state.id}</h1>
-			{questions.length != 0 ? (
+			{questions.length != 0 && index < questions.length ? (
 				<div>
 					<p>{questions[index].question}</p>
 					<Question
@@ -44,11 +50,11 @@ export const QuestionList = () => {
 						option2={questions[index].option2}
 						option3={questions[index].option3}
 						option4={questions[index].option4}
-						onOptionClick={() => onOptionClick()}
+						onOptionClick={(guess, answer) => onOptionClick(guess, answer)}
 					/>
-					<p>Total score: {score}</p>
 				</div>
-			) : null}
+			) : <p>No more questions</p>}
+			<p>Total score: {score}</p>
 		</div>
 	);
 };

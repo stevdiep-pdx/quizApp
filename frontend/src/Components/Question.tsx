@@ -5,7 +5,7 @@ export type QuestionProps = {
 	option2: string;
 	option3: string;
 	option4: string;
-	onOptionClick: () => void;
+	onOptionClick: (guess: string, answer: string) => void;
 };
 
 export function Question(props: QuestionProps) {
@@ -13,14 +13,14 @@ export function Question(props: QuestionProps) {
 	const { answer, option2, option3, option4, onOptionClick } = props;
 	
 	// Make a set of questions
-	const questionSet = [answer, option2, option3, option4];
+	const answerSet = [answer, option2, option3, option4];
 	
 	// Randomize the set of questions
-	for(let i = questionSet.length - 1; i > 0; i--) {
+	for(let i = answerSet.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		const temp = questionSet[i];
-		questionSet[i] = questionSet[j];
-		questionSet[j] = temp;
+		const temp = answerSet[i];
+		answerSet[i] = answerSet[j];
+		answerSet[j] = temp;
 	}
 	
 	// The quiz and how it should look
@@ -28,10 +28,10 @@ export function Question(props: QuestionProps) {
 		<div className={"rounded-box bg-slate-700 w-4/5 mx-auto"}>
 			<div className={"space-x-8 my-1"}>
 				<p>Select an option</p>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick()}>{questionSet[0]}</button>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick()}>{questionSet[1]}</button>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick()}>{questionSet[2]}</button>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick()}>{questionSet[3]}</button>
+				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[0], answer)}>{answerSet[0]}</button>
+				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[1], answer)}>{answerSet[1]}</button>
+				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[2], answer)}>{answerSet[2]}</button>
+				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[3], answer)}>{answerSet[3]}</button>
 			</div>
 		</div>
 	);

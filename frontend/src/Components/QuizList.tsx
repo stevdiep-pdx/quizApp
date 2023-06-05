@@ -21,7 +21,7 @@ export const QuizList = () => {
 	}, []);
 	
 	// When the play button is clicked, go to the page to play the quiz and pass the quiz id
-	const onPlayButtonClick = (name, id) => {
+	const onPlayButtonClick = (name: string, id: number) => {
 		console.log(`play ${name} ${id}`);
 		
 		// Navigate to the questions page

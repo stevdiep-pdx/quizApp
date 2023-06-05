@@ -3,7 +3,7 @@ import "@css/QuizStyles.css";
 export type QuizProps = {
 	name: string;
 	id: number;
-	onPlayButtonClick: (name, id) => void;
+	onPlayButtonClick: (name: string, id: number) => void;
 };
 
 export function Quiz(props: QuizProps) {
