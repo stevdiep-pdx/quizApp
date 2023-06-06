@@ -1,5 +1,4 @@
 import {Question} from "@/Components/Question.tsx";
-import {Quiz} from "@/Components/Quiz.tsx";
 import {QuestionService} from "@/Services/QuestionService.tsx";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
@@ -17,9 +16,7 @@ export const QuestionList = () => {
 	useEffect(() => {
 		// Get all questions
 		const getQuestions = async (id) => {
-			const questionRes = await QuestionService.send(id);
-			console.log("res", questionRes);
-			return questionRes;
+			return QuestionService.search(id);
 		};
 		
 		getQuestions(location.state.id).then(setQuestions);

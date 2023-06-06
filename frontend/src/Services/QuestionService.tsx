@@ -4,7 +4,7 @@ import {httpClient, httpSearchQuestion} from "@/Services/HttpClient.tsx";
 export const QuestionService = {
 	
 	// Get all questions for a particular quiz and send them back to the front-end
-	async send(quiz_id: number) {
+	async search(quiz_id: number) {
 		return httpSearchQuestion("/questions", quiz_id);
 	}
 };
