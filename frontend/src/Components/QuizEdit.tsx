@@ -16,7 +16,8 @@ export const QuizEdit = () => {
 	useEffect(() => {
 		const getQuizzes = async () => {
 			const quizzesRes = await QuizService.search(auth.userId);
-			return quizzesRes.data;
+			console.log(quizzesRes);
+			return quizzesRes;
 		};
 		
 		getQuizzes().then(setQuizzes);
@@ -26,13 +27,22 @@ export const QuizEdit = () => {
 	const onPlayButtonClick = (name: string, id: number) => {
 		console.log(`edit ${name} ${id}`);
 		
+		
+		
 		// Navigate to the questions page
 		//navigate("/questions", { state: {name, id} });
 	};
 	
 	// When the play button is clicked, go to the page to play the quiz and pass the quiz id
-	const onCreateButtonClick = (name: string) => {
-		console.log(`create ${name}`);
+	const onCreateButtonClick = (name: string, id: number) => {
+		console.log(`create ${name} by user ${id}`);
+		
+		// Make a new quiz
+		QuizService.post(id, name)
+			.then(() => {
+				console.log("nav next");
+			})
+			.catch(err => console.log(err));
 		
 		// Navigate to the questions page
 		//navigate("/questions", { state: {name, id} });
@@ -57,7 +67,7 @@ export const QuizEdit = () => {
 				/>
 				{
 					newName != "" &&
-					<button className="btn btn-primary" onClick={() => onCreateButtonClick(newName)}>Create</button>
+					<button className="btn btn-primary" onClick={() => onCreateButtonClick(newName, auth.userId)}>Create</button>
 				}
 			</div>
 			{quizzes ? (

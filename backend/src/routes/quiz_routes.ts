@@ -8,6 +8,7 @@ export function QuizRoutesInit(app: FastifyInstance) {
 	app.post<{ Body: { id: number, quiz_name: string } }>("/quizzes", async (req, reply) => {
 		const {id, quiz_name } = req.body;
 		
+		console.log("new quiz");
 		try {
 			// Find the creator of the quiz
 			const creatorUser = await req.em.findOneOrFail(User, id, {strict: true});

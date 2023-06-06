@@ -11,5 +11,10 @@ export const QuizService = {
 	// Get all quizzes owned by a particular user
 	async search(id: number) {
 		return httpSearchUser("/quizzes", id);
+	},
+	
+	// Make a new quiz
+	async post(id: number, name: string) {
+		return httpClient.post("/quizzes", {id: id, quiz_name: name});
 	}
 };
