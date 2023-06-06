@@ -27,7 +27,7 @@ export const useFetch = (url) => {
 			.then(async (data) => {
 				// The the token exists, save it and update Axios
 				if (data?.token) {
-					localStorage.setItem("user", JSON.stringify(data?.token));
+					localStorage.setItem("user", JSON.stringify(data?.token).slice(1, -1));
 					await updateAxios(data?.token);
 					window.location.reload();
 				}

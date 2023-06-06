@@ -8,11 +8,11 @@ export class QuizSeeder extends Seeder {
 		
 		context.quiz1 = em.create(Quiz, {
 			creator: context.user1,
-			name: "Steven Quiz.tsx 1",
+			name: "Super Easy Quiz",
 		});
 		context.quiz2 = em.create(Quiz, {
 			creator: context.user1,
-			name: "Steven Quiz.tsx 2",
+			name: "Quiz with No Questions",
 		});
 		context.quiz3 = em.create(Quiz, {
 			creator: context.user2,
@@ -29,6 +29,10 @@ export class QuizSeeder extends Seeder {
 		context.quiz6 = em.create(Quiz, {
 			creator: context.user3,
 			name: "Adding",
+		});
+		context.quiz7 = em.create(Quiz, {
+			creator: context.user5,
+			name: "Full-Stack Web Development",
 		});
 	}
 }

@@ -38,29 +38,29 @@ export function UserRoutesInit(app: FastifyInstance) {
 
 	// CRUD ROUTES //
 	// Create a user
-	app.post<{ Body: ICreateUsersBody }>("/users", async (req, reply) => {
-		// Get info from the body of the request
-		const { name, email, password } = req.body;
-
-		try {
-			// Make a new user
-			const hashedPw = await bcrypt.hash(password, 10);
-			const newUser = await req.em.create(User, {
-				name,
-				email,
-				password: hashedPw
-			});
-
-			// Persist changes
-			await req.em.flush();
-
-			// Send a reply back
-			return reply.send(newUser);
-		} catch (err) {
-			// If there is an error, send an error code back
-			return reply.status(500).send({ message: err.message });
-		}
-	});
+	// app.post<{ Body: ICreateUsersBody }>("/users", async (req, reply) => {
+	// 	// Get info from the body of the request
+	// 	const { name, email, password } = req.body;
+	//
+	// 	try {
+	// 		// Make a new user
+	// 		const hashedPw = await bcrypt.hash(password, 10);
+	// 		const newUser = await req.em.create(User, {
+	// 			name,
+	// 			email,
+	// 			password: hashedPw
+	// 		});
+	//
+	// 		// Persist changes
+	// 		await req.em.flush();
+	//
+	// 		// Send a reply back
+	// 		return reply.send(newUser);
+	// 	} catch (err) {
+	// 		// If there is an error, send an error code back
+	// 		return reply.status(500).send({ message: err.message });
+	// 	}
+	// });
 
 	// Read for a user
 	app.search("/users", async (req, reply) => {
@@ -96,17 +96,12 @@ export function UserRoutesInit(app: FastifyInstance) {
 	});
 
 	// Delete a user (only a user can delete their own account)
-	app.delete<{ Body: { id: number, password: string } }>("/users", async (req, reply) => {
-		const { id, password } = req.body;
+	app.delete<{ Body: { id: number } }>("/users", async (req, reply) => {
+		const { id } = req.body;
 
 		try {
 			// Get the user
 			const theUserToDelete = await req.em.findOneOrFail(User, id, {strict: true});
-
-			// Make sure that the password provided matches
-			if (theUserToDelete.password !== password) {
-				return reply.status(401).send();
-			}
 
 			// Delete the user and persist changes
 			await req.em.remove(theUserToDelete).flush();
@@ -174,7 +169,6 @@ export function UserRoutesInit(app: FastifyInstance) {
 			const newUser = await req.em.create(User, {
 				name: "test",
 				email: profile.email,
-				password: "password"
 			});
 			
 			// Persist changes

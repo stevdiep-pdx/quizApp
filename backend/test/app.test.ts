@@ -8,7 +8,6 @@ import tap from "tap";
 import { MikroORM, ISeedManager } from "@mikro-orm/core";
 import { faker } from "@faker-js/faker";
 import app from "../src/app.js";
-import { UserRole } from "../src/db/entities/User.js";
 import config from "../src/db/mikro-orm.config.js";
 import { DatabaseSeeder } from "../src/db/seeders/DatabaseSeeder.js";
 
@@ -43,29 +42,6 @@ void tap.test("List all users from /dbvoid tap.test", async () => {
 
 
 // USERS CRUD TEST //
-
-// Creating a user
-void tap.test("Creating a new user", async () => {
-	const payload = {
-		name: "Tester",
-		email: faker.internet.email(),
-		password: "password"
-	};
-
-	const response = await app.inject({
-		method: "POST",
-		url: "/users",
-		payload
-	});
-
-	// Verifying the results
-	response.statusCode.should.equal(200);
-	response.payload.should.not.equal(payload);
-	const resPayload = response.json();
-	resPayload.email.should.equal(payload.email);
-	resPayload.name.should.equal("Tester");
-});
-
 // Reading a user
 void tap.test("Getting a user", async () => {
 	const payload = {
@@ -107,7 +83,6 @@ void tap.test("Updating a user's name", async () => {
 void tap.test("Deleting a user", async () => {
 	let payload = {
 		id: 1,
-		password: "password"
 	};
 
 	// Good delete
@@ -120,7 +95,7 @@ void tap.test("Deleting a user", async () => {
 	response.statusCode.should.equal(200);
 
 	// Invalid ID should have a bad response code
-	payload = { ...payload, my_id: 1000000 };
+	payload = { my_id: 1000000 };
 
 	response = await app.inject({
 		method: "DELETE",
@@ -129,17 +104,6 @@ void tap.test("Deleting a user", async () => {
 	});
 
 	response.statusCode.should.equal(500);
-
-	// Invalid password should have a bad response code
-	payload = { ...payload, id: 2, password: "password2" };
-
-	response = await app.inject({
-		method: "DELETE",
-		url: "/users",
-		payload
-	});
-
-	response.statusCode.should.equal(401);
 });
 
 
@@ -204,9 +168,7 @@ void tap.test("Updating a quiz's name", async () => {
 // Deleting a quiz
 void tap.test("Deleting a quiz", async () => {
 	let payload = {
-		my_id: 1,
 		quiz_id: 1,
-		password: "password"
 	};
 	
 	// Bad delete, user gone
@@ -219,7 +181,7 @@ void tap.test("Deleting a quiz", async () => {
 	response.statusCode.should.equal(500);
 	
 	// Invalid ID should have a bad response code
-	payload = { ...payload, quiz_id: 1000000 };
+	payload = { quiz_id: 1000000 };
 	
 	response = await app.inject({
 		method: "DELETE",
@@ -229,26 +191,9 @@ void tap.test("Deleting a quiz", async () => {
 	
 	response.statusCode.should.equal(500);
 	
-	// Invalid password should have a bad response code
-	payload = {
-		my_id: 2,
-		quiz_id: 3,
-		password: "password2"
-	};
-	
-	response = await app.inject({
-		method: "DELETE",
-		url: "/quizzes",
-		payload
-	});
-	
-	response.statusCode.should.equal(401);
-	
 	// Good delete
 	payload = {
-		my_id: 2,
 		quiz_id: 3,
-		password: "password"
 	};
 	
 	response = await app.inject({
@@ -332,9 +277,7 @@ void tap.test("Updating a question", async () => {
 void tap.test("Deleting a question", async () => {
 	// Invalid ID should have a bad response code
 	let payload = {
-		my_id: 2,
 		question_id: 100000,
-		password: "password"
 	};
 	
 	let response = await app.inject({
@@ -345,26 +288,9 @@ void tap.test("Deleting a question", async () => {
 	
 	response.statusCode.should.equal(500);
 	
-	// Invalid password should have a bad response code
-	payload = {
-		my_id: 2,
-		question_id: 7,
-		password: "password2"
-	};
-	
-	response = await app.inject({
-		method: "DELETE",
-		url: "/questions",
-		payload
-	});
-	
-	response.statusCode.should.equal(401);
-	
 	// Good delete
 	payload = {
-		my_id: 2,
 		question_id: 7,
-		password: "password"
 	};
 	
 	response = await app.inject({

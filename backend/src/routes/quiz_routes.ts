@@ -65,18 +65,10 @@ export function QuizRoutesInit(app: FastifyInstance) {
 	});
 	
 	// Delete a quiz
-	app.delete<{ Body: { my_id: number, quiz_id: number; password: string } }>("/quizzes", async (req, reply) => {
-		const { my_id, quiz_id, password } = req.body;
+	app.delete<{ Body: { quiz_id: number } }>("/quizzes", async (req, reply) => {
+		const { quiz_id } = req.body;
 		
 		try {
-			// Get the user
-			const me = await req.em.findOneOrFail(User, my_id, {strict: true});
-			
-			// Make sure that the password provided matches
-			if (me.password !== password) {
-				return reply.status(401).send();
-			}
-			
 			// Get the quiz
 			const quizToDelete = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
 			

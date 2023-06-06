@@ -11,10 +11,6 @@ export class User extends QuizBaseEntity {
 	
 	@Property()
 	name!: string
-
-	@Property()
-	password!: string;
-
 	
 	// Note that these DO NOT EXIST in the database itself!
 	@OneToMany(
