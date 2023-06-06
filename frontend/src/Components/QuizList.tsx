@@ -16,7 +16,6 @@ export const QuizList = () => {
 	useEffect(() => {
 		const getQuizzes = async () => {
 			const quizzesRes = await QuizService.send();
-				//await axios.get("http://localhost:8080/quizzes");
 			return quizzesRes.data;
 		};
 		

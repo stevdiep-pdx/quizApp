@@ -7,4 +7,6 @@ export const QuizService = {
 	async send() {
 		return httpClient.get("/quizzes");
 	}
+	
+	// Get all quizzes owned by a particular user
 };
