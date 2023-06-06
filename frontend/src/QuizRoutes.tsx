@@ -1,10 +1,9 @@
-import { CreateProfile } from "@/Components/CreateProfile.tsx";
 import { Home } from "@/Components/HomePage.tsx";
 import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
-import { Match } from "@/Components/Match.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
 import {QuestionList} from "@/Components/QuestionList.tsx";
+import {QuizEdit} from "@/Components/QuizEdit.tsx";
 import {QuizList} from "@/Components/QuizList.tsx";
 import {SignUp} from "@/Components/SignUp.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
@@ -22,8 +21,8 @@ export function QuizRouter() {
 
 						<ul className={"menu menu-horizontal"}>
 							<li><Link to="/">Home</Link></li>
-							<li><Link to="/match"> Match</Link></li>
-							<li><Link to="/quizzes"> Quizzes</Link></li>
+							<li><Link to="/profile/quizzes">Your Quizzes</Link></li>
+							<li><Link to="/quizzes">Quizzes</Link></li>
 							{auth?.token != null ? (
 								<li><Link to="/logout">Logout</Link></li>
 							) : (
@@ -39,7 +38,7 @@ export function QuizRouter() {
 
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/match" element={<ProtectedRoute><Match /></ProtectedRoute>} />
+				<Route path="/profile/quizzes" element={<ProtectedRoute><QuizEdit /></ProtectedRoute>} />
 				<Route path="/create" element={<SignUp />}/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />

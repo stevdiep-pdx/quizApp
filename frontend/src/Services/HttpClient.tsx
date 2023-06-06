@@ -14,12 +14,6 @@ export const httpClient = axios.create({
 	},
 });
 
-// export async function getNextProfileFromServer() {
-// 	const profile =
-// 		await httpClient.get<ProfileType>("/profile");
-// 	return profile.data;
-// }
-
 // Allow the front-end to use the 'search' method to query the questions table
 export const httpSearchQuestion = async (path: string, id: number) => {
 	console.log("search");

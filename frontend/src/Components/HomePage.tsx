@@ -8,7 +8,7 @@ export const Home = () => {
 };
 
 export function Title() {
-	return <h1>Quiz App Home Page</h1>;
+	return <h1>Quiz App Home</h1>;
 }
 
 export function Subtitle() {

@@ -1,4 +1,6 @@
 import {Quiz} from "@/Components/Quiz.tsx";
+import {httpClient} from "@/Services/HttpClient.tsx";
+import {QuizService} from "@/Services/QuizService.tsx";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
@@ -13,7 +15,8 @@ export const QuizList = () => {
 	// Get all quizzes
 	useEffect(() => {
 		const getQuizzes = async () => {
-			const quizzesRes = await axios.get("http://localhost:8080/quizzes");
+			const quizzesRes = await QuizService.send();
+				//await axios.get("http://localhost:8080/quizzes");
 			return quizzesRes.data;
 		};
 		

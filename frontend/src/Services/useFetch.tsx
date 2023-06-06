@@ -1,5 +1,6 @@
 import {httpClient} from "@/Services/HttpClient.tsx";
 import { useState } from "react";
+import {updateAxios} from "@/Services/Auth.tsx";
 
 export const useFetch = (url) => {
 	// States to handle signup/login
@@ -10,41 +11,32 @@ export const useFetch = (url) => {
 	const handleGoogle = async (response) => {
 		setLoading(true);
 		
+		// Use a fetch request to login/make a new account
 		fetch(url, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-
+			// Pass the credentials from google
 			body: JSON.stringify({credential: response.credential}),
 		})
 			.then((res) => {
-				console.log("request", res);
 				setLoading(false);
-
 				return res.json();
 			})
-			.then((data) => {
+			.then(async (data) => {
+				// The the token exists, save it and update Axios
 				if (data?.token) {
-					console.log(data.token);
 					localStorage.setItem("user", JSON.stringify(data?.token));
+					await updateAxios(data?.token);
 					window.location.reload();
 				}
 
-				// throw new Error(data?.message || data);
 			})
 			.catch((error) => {
 				setError(error?.message);
 			});
-		
-		//
-		// const login_result = await httpClient.post('/signup', JSON.stringify({credential: response.credential}));
-		// const thetoken = login_result.data.token;
-		// localStorage.setItem("user", JSON.stringify(thetoken));
-		
 	};
-	
-	
 	
 	// Return the results
 	return {loading, error, handleGoogle};

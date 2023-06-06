@@ -11,7 +11,8 @@ export type AuthContextProps = {
 	handleLogout: () => void;
 };
 
-const updateAxios = async (token: string) => {
+export const updateAxios = async (token: string) => {
+	console.log("In update:", token);
 	httpClient.interceptors.request.use(
 		async (config) => {
 			// @ts-ignore
@@ -19,7 +20,7 @@ const updateAxios = async (token: string) => {
 				Authorization: `Bearer ${token}`,
 				Accept: "application/json",
 			};
-
+			console.log("Finished updating Axios");
 			return config;
 		},
 		(error) => {
