@@ -16,5 +16,10 @@ export const QuizService = {
 	// Make a new quiz
 	async post(id: number, name: string) {
 		return httpClient.post("/quizzes", {id: id, quiz_name: name});
+	},
+	
+	// Delete a post
+	async delete(id: number) {
+		return httpClient.delete("/quizzes", {data: {quiz_id: id}});
 	}
 };

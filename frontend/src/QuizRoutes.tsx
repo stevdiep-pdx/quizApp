@@ -3,7 +3,7 @@ import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
 import {QuestionList} from "@/Components/QuestionList.tsx";
-import {QuizEdit} from "@/Components/QuizEdit.tsx";
+import {QuizMenu} from "@/Components/QuizMenu.tsx";
 import {QuizList} from "@/Components/QuizList.tsx";
 import {SignUp} from "@/Components/SignUp.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
@@ -38,7 +38,7 @@ export function QuizRouter() {
 
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/profile/quizzes" element={<ProtectedRoute><QuizEdit /></ProtectedRoute>} />
+				<Route path="/profile/quizzes" element={<ProtectedRoute><QuizMenu /></ProtectedRoute>} />
 				<Route path="/create" element={<SignUp />}/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />

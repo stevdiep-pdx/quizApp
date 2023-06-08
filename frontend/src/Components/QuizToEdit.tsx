@@ -4,10 +4,10 @@ export type QuizProps = {
 	name: string;
 	id: number;
 	onEditButtonClick: (name: string, id: number) => void;
-	onDeleteButtonClick: () => void;
+	onDeleteButtonClick: (id: number) => void;
 };
 
-export function Quiz(props: QuizProps) {
+export function QuizToEdit(props: QuizProps) {
 	// Define the props
 	const { name, id, onEditButtonClick, onDeleteButtonClick } = props;
 
@@ -17,7 +17,7 @@ export function Quiz(props: QuizProps) {
 			<h2 className={"text-4xl text-blue-600"}>{name}</h2>
 			<div className={"space-x-8 my-1"}>
 				<button className="btn btn-circle" onClick={() => onEditButtonClick(name, id)}>Edit</button>
-				<button className="btn btn-circle" onClick={() => onDeleteButtonClick()}>Delete</button>
+				<button className="btn btn-circle" onClick={() => onDeleteButtonClick(id)}>Delete</button>
 			</div>
 		</div>
 	);

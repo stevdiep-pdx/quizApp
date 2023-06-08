@@ -30,10 +30,12 @@ services:
       - DB_NAME=doggr
       - DB_USER=doggr
       - DB_PASS=doggr
-      - PORT=8080
       - HOST=0.0.0.0
+      - PORT=8080
       - PASSWORD=password
       - NODE_ENV=development
+      - AUTH_SECRET=supersecret219340818092358
+      - GOOGLE_CLIENT_ID=G
     depends_on:
       postgres:
         condition: service_healthy
@@ -47,6 +49,7 @@ services:
     environment:
       - API_HOST=backend
       - PORT=8080
+      - REACT_APP_GOOGLE_CLIENT_ID=6
 
 volumes:
   db:
