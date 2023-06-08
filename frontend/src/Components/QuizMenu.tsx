@@ -1,7 +1,7 @@
 import {QuizToEdit} from "@/Components/QuizToEdit.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 
 export const QuizMenu = () => {
@@ -40,32 +40,36 @@ export const QuizMenu = () => {
 	};
 	
 	// When the edit button is clicked, go to the page to edit the quiz and pass the quiz id
-	const onEditButtonClick = (name: string, id: number) => {
-		console.log(`edit ${id}`);
-		
-		
+	const onEditButtonClick = (name: string, id_quiz: number) => {
+		console.log(`edit ${id_quiz}`);
 		
 		// Navigate to the questions page
-		//navigate("/questions", { state: {name, id} });
+		navigate("/profile/questions", { state: {name, id_quiz} });
 	};
 	
 	// When the create button is clicked, make a request and go to the page to edit the quiz and pass the quiz id
 	const onCreateButtonClick = (name: string, id: number) => {
 		console.log(`create ${name} by user ${id}`);
 		
+		// Variable to hold quiz id, will later be passed
+		let quiz_id = 0;
+		
 		// Make a new quiz
 		QuizService.post(id, name)
-			.then(() => {
-				console.log("nav next");
+			.then((response) => {
+				console.log("nav next", response.data.id);
+				
+				// Save the quiz id
+				quiz_id = response.data.id;
 				
 				// Update the state by getting the new list and clearing the input
 				setNewName("");
 				getQuizzes().then(setQuizzes);
+				
+				// Navigate to the questions page
+				navigate("/profile/questions", { state: {name, quiz_id} });
 			})
 			.catch(err => console.log(err));
-		
-		// Navigate to the questions page
-		//navigate("/questions", { state: {name, id} });
 	};
 	
 	// Build a list of quizzes using map()
