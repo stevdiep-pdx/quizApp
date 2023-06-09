@@ -16,7 +16,10 @@ export const QuestionService = {
 	// Update a question
 	async put(question_id: number, question: string, answer: string, option2: string, option3: string, option4: string) {
 		return httpClient.put("/questions", {question_id, question, answer, option2, option3, option4,});
-	}
+	},
 	
 	// Create a question
+	async post(quiz_id: number, question: string, answer: string, option2: string, option3: string, option4: string) {
+		return httpClient.post("/questions", {quiz_id, question, answer, option2, option3, option4});
+	}
 };
