@@ -102,7 +102,21 @@ export const QuestionMenu = () => {
 			{/*	}*/}
 			{/*</div>*/}
 			<ul>
-				<li>Make a question</li>
+				<li key="create">
+					<QuestionToEdit
+						header={"Create a new question"}
+						question={""}
+						answer={""}
+						option2={""}
+						option3={""}
+						option4={""}
+						id={-1}
+						onEditButtonClick={(question, answer, option2, option3, option4, id) => onEditButtonClick(question, answer, option2, option3, option4, id)}
+						onDeleteButtonClick={null}
+						
+					/>
+				</li>
+
 			</ul>
 			{questions ? (
 				<ul>
@@ -110,6 +124,7 @@ export const QuestionMenu = () => {
 						// Everything list items should contain the name and id
 						<li key={question.question}>
 							<QuestionToEdit
+								header={question.question}
 								question={question.question}
 								answer={question.answer}
 								option2={question.option2}

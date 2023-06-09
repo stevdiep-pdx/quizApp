@@ -2,6 +2,7 @@ import "@css/QuizStyles.css";
 import {useState} from "react";
 
 export type QuestionProps = {
+	header: string;
 	question: string;
 	answer: string;
 	option2: string;
@@ -14,7 +15,7 @@ export type QuestionProps = {
 
 export function QuestionToEdit(props: QuestionProps) {
 	// Define the props
-	const { question, answer, option2, option3, option4, id, onEditButtonClick, onDeleteButtonClick } = props;
+	const { header, question, answer, option2, option3, option4, id, onEditButtonClick, onDeleteButtonClick } = props;
 	
 	// Define the states
 	const [newQuestion, setQuestion] = useState(question);
@@ -26,7 +27,7 @@ export function QuestionToEdit(props: QuestionProps) {
 	// The question and textboxes for editing its fields
 	return (
 		<div className={"rounded-box bg-slate-700 w-4/5 mx-auto"}>
-			<h2 className={"text-4xl text-blue-600"}>{question}</h2>
+			<h2 className={"text-4xl text-blue-600"}>{header}</h2>
 			
 			<div>
 				<label htmlFor="newQuestion">Question: </label>
@@ -98,10 +99,11 @@ export function QuestionToEdit(props: QuestionProps) {
 				/>
 			</div>
 			
-			
 			<div className={"space-x-8 my-1"}>
-				<button className="btn btn-circle" onClick={() => onEditButtonClick(newQuestion, newAnswer, newOption2, newOption3, newOption4, id)}>Update</button>
-				<button className="btn btn-circle" onClick={() => onDeleteButtonClick(id)}>Delete</button>
+				{newQuestion != "" && newAnswer != "" && newOption2 != "" && newOption3 != "" && newOption4 != "" &&
+          <button className="btn btn-circle" onClick={() => onEditButtonClick(newQuestion, newAnswer, newOption2, newOption3, newOption4, id)}>{onDeleteButtonClick ? "Update" : "Create"}</button>
+				}
+				{onDeleteButtonClick ? <button className="btn btn-circle" onClick={() => onDeleteButtonClick(id)}>Delete</button> : null}
 			</div>
 		</div>
 	);

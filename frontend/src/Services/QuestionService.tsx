@@ -10,7 +10,7 @@ export const QuestionService = {
 	
 	// Delete a question
 	async delete(question_id: number) {
-		return httpClient.delete("/questions", {data: {question_id}})
+		return httpClient.delete("/questions", {data: {question_id}});
 	},
 	
 	// Update a question
