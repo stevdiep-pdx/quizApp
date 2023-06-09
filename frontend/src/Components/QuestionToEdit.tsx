@@ -28,65 +28,76 @@ export function QuestionToEdit(props: QuestionProps) {
 		<div className={"rounded-box bg-slate-700 w-4/5 mx-auto"}>
 			<h2 className={"text-4xl text-blue-600"}>{question}</h2>
 			
-			<label htmlFor="newQuestion">Question: </label>
-			<input
-				placeholder="Question..."
-				type="text"
-				id="newQuestion"
-				required
-				value={newQuestion}
-				onChange={e => setQuestion(e.target.value)}
-				name="newQuestion"
-				className="input input-bordered"
-			/>
+			<div>
+				<label htmlFor="newQuestion">Question: </label>
+				<input
+					placeholder="Question..."
+					type="text"
+					id="newQuestion"
+					required
+					value={newQuestion}
+					onChange={e => setQuestion(e.target.value)}
+					name="newQuestion"
+					className="input input-bordered w-4/5"
+				/>
+			</div>
 			
-			<label htmlFor="newAnswer">Answer: </label>
-			<input
-				placeholder="Answer..."
-				type="text"
-				id="newAnswer"
-				required
-				value={newAnswer}
-				onChange={e => setAnswer(e.target.value)}
-				name="newAnswer"
-				className="input input-bordered"
-			/>
+			<div>
+				<label htmlFor="newAnswer">Answer: </label>
+				<input
+					placeholder="Answer..."
+					type="text"
+					id="newAnswer"
+					required
+					value={newAnswer}
+					onChange={e => setAnswer(e.target.value)}
+					name="newAnswer"
+					className="input input-bordered w-4/5"
+				/>
+			</div>
 			
-			<label htmlFor="newOption2">Option 2: </label>
-			<input
-				placeholder="Option..."
-				type="text"
-				id="newOption2"
-				required
-				value={newOption2}
-				onChange={e => setOption2(e.target.value)}
-				name="newOption2"
-				className="input input-bordered"
-			/>
+			<div>
+				<label htmlFor="newOption2">Option 2: </label>
+				<input
+					placeholder="Option..."
+					type="text"
+					id="newOption2"
+					required
+					value={newOption2}
+					onChange={e => setOption2(e.target.value)}
+					name="newOption2"
+					className="input input-bordered w-4/5"
+				/>
+			</div>
 			
-			<label htmlFor="newOption3">Option 3: </label>
-			<input
-				placeholder="Option..."
-				type="text"
-				id="newOption3"
-				required
-				value={newOption3}
-				onChange={e => setOption3(e.target.value)}
-				name="newOption3"
-				className="input input-bordered"
-			/>
+			<div>
+				<label htmlFor="newOption3">Option 3: </label>
+				<input
+					placeholder="Option..."
+					type="text"
+					id="newOption3"
+					required
+					value={newOption3}
+					onChange={e => setOption3(e.target.value)}
+					name="newOption3"
+					className="input input-bordered w-4/5"
+				/>
+			</div>
 			
-			<label htmlFor="newOption4">Option 4: </label>
-			<input
-				placeholder="Option..."
-				type="text"
-				id="newOption4"
-				required
-				value={newOption4}
-				onChange={e => setOption4(e.target.value)}
-				name="newOption4"
-				className="input input-bordered"
-			/>
+			<div>
+				<label htmlFor="newOption4">Option 4: </label>
+				<input
+					placeholder="Option..."
+					type="text"
+					id="newOption4"
+					required
+					value={newOption4}
+					onChange={e => setOption4(e.target.value)}
+					name="newOption4"
+					className="input input-bordered w-4/5"
+				/>
+			</div>
+			
 			
 			<div className={"space-x-8 my-1"}>
 				<button className="btn btn-circle" onClick={() => onEditButtonClick(newQuestion, newAnswer, newOption2, newOption3, newOption4, id)}>Update</button>

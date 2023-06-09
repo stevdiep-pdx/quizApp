@@ -37,6 +37,7 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 	app.search<{ Body: { quiz_id: number } }>("/questions", async (req, reply) => {
 		const {quiz_id} = req.body;
 		
+		console.log("searching questions for quiz ", quiz_id);
 		try {
 			// Find the quiz and their questions
 			const quizEntity = await req.em.getReference(Quiz, quiz_id);

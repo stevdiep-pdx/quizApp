@@ -40,11 +40,11 @@ export const QuizMenu = () => {
 	};
 	
 	// When the edit button is clicked, go to the page to edit the quiz and pass the quiz id
-	const onEditButtonClick = (name: string, id_quiz: number) => {
-		console.log(`edit ${id_quiz}`);
+	const onEditButtonClick = (name: string, quiz_id: number) => {
+		console.log(`edit ${quiz_id}`);
 		
 		// Navigate to the questions page
-		navigate("/profile/questions", { state: {name, id_quiz} });
+		navigate("/profile/questions", { state: {name, quiz_id} });
 	};
 	
 	// When the create button is clicked, make a request and go to the page to edit the quiz and pass the quiz id

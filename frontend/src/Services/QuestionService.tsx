@@ -7,4 +7,10 @@ export const QuestionService = {
 	async search(quiz_id: number) {
 		return httpSearchQuestion("/questions", quiz_id);
 	}
+	
+	// Delete a question
+	
+	// Update a question
+	
+	// Create a question
 };

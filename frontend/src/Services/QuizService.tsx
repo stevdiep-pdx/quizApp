@@ -21,5 +21,10 @@ export const QuizService = {
 	// Delete a post
 	async delete(id: number) {
 		return httpClient.delete("/quizzes", {data: {quiz_id: id}});
+	},
+	
+	// Update a quiz's name
+	async put(id: number, new_name: string) {
+		return httpClient.put("/quizzes", {id, new_name});
 	}
 };
