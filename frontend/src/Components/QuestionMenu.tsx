@@ -1,6 +1,7 @@
 import {QuestionToEdit} from "@/Components/QuestionToEdit.tsx";
 import {useAuth} from "@/Services/Auth.tsx";
 import {QuestionService} from "@/Services/QuestionService.tsx";
+import {QuizService} from "@/Services/QuizService.tsx";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 
@@ -11,11 +12,6 @@ export const QuestionMenu = () => {
 	// Initial list of quizzes
 	const [questions, setQuestions] = useState([]);
 	const [newName, setNewName] = useState(location.state.name);
-	const [newQuestion, setQuestion] = useState("");
-	const [newAnswer, setAnswer] = useState("");
-	const [newOption2, setOption2] = useState("");
-	const [newOption3, setOption3] = useState("");
-	const [newOption4, setOption4] = useState("");
 	
 	// Call the service to get the questions owned by the quiz
 	const getQuestions = async () => {
@@ -74,10 +70,41 @@ export const QuestionMenu = () => {
 			.catch(err => console.log(err));
 	};
 	
+	// When the update name button is clicked, make a request
+	const onNameButtonClick = (name: string, quiz_id: number) => {
+		console.log(`change ${name} by for ${quiz_id}`);
+		
+		// Make a new quiz
+		QuizService.put(quiz_id, name)
+			.then(() => {
+				console.log("nav next");
+				
+				// Update the state by getting the new list
+				setNewName("");
+			})
+			.catch(err => console.log(err));
+	};
+	
 	return (
 		<div>
 			<h1>Editing quiz: {location.state.name} id: {location.state.quiz_id}</h1>
-
+			<div>
+				<label htmlFor="newName">Change Name: </label>
+				<input
+					placeholder="Name..."
+					type="text"
+					id="newName"
+					required
+					value={newName}
+					onChange={e => setNewName(e.target.value)}
+					name="newName"
+					className="input input-bordered"
+				/>
+				{
+					newName != "" &&
+          <button className="btn btn-primary" onClick={() => onNameButtonClick(newName, location.state.quiz_id)}>Update</button>
+				}
+			</div>
 			<ul>
 				<li key="create">
 					<QuestionToEdit

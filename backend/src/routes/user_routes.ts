@@ -167,7 +167,7 @@ export function UserRoutesInit(app: FastifyInstance) {
 			
 			// Make a new user
 			const newUser = await req.em.create(User, {
-				name: "test",
+				name: profile.given_name,
 				email: profile.email,
 			});
 			
@@ -178,15 +178,11 @@ export function UserRoutesInit(app: FastifyInstance) {
 			// Search for the user using the email from the profile
 			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
 			
-			
 			const userId = theUser.id;
 			const token = app.jwt.sign({ userId });
-
-			// reply.send({ token });
-
+			
 			console.log("in signup");
 			reply.status(201).send({token});
-
 			
 		} catch (err) {
 			reply.status(500)
@@ -217,16 +213,11 @@ export function UserRoutesInit(app: FastifyInstance) {
 			// Search for the user using the email from the profile
 			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
 			
-			
-			
 			const userId = theUser.id;
 			const token = app.jwt.sign({ userId });
 			
-			// reply.send({ token });
-			
 			console.log("in signin");
 			reply.status(201).send({token});
-			
 		} catch (err) {
 			reply.status(500)
 				.send(err);
