@@ -9,6 +9,9 @@ export const QuestionService = {
 	},
 	
 	// Delete a question
+	async delete(question_id: number) {
+		return httpClient.delete("/questions", {data: {question_id}})
+	},
 	
 	// Update a question
 	async put(question_id: number, question: string, answer: string, option2: string, option3: string, option4: string) {

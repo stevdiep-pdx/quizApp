@@ -31,17 +31,17 @@ export const QuestionMenu = () => {
 		console.log(`delete ${id}`);
 		
 		// Delete the quiz
-		// QuizService.delete(id)
-		// 	.then(() => {
-		// 		console.log("deleted");
-		//
-		// 		// Update the state by getting the new list
-		// 		getQuizzes().then(setQuizzes);
-		// 	})
-		// 	.catch(err => console.log(err));
+		QuestionService.delete(id)
+			.then(() => {
+				console.log("deleted");
+
+				// Update the state by getting the new list
+				getQuestions().then(setQuestions);
+			})
+			.catch(err => console.log(err));
 	};
 	
-	// When the edit button is clicked, go to the page to edit the quiz and pass the quiz id
+	// When the edit button is clicked, pass of fields to the question service
 	const onEditButtonClick = (question: string, answer: string, option2: string, option3: string, option4: string, question_id: number) => {
 		console.log(`edit ${question_id}`);
 		
@@ -101,6 +101,9 @@ export const QuestionMenu = () => {
       {/*    <button className="btn btn-primary" onClick={() => onCreateButtonClick(newName, auth.userId)}>Create</button>*/}
 			{/*	}*/}
 			{/*</div>*/}
+			<ul>
+				<li>Make a question</li>
+			</ul>
 			{questions ? (
 				<ul>
 					{questions.map((question: { question: string, answer: string, option2: string, option3: string, option4: string, id: number }) => (
