@@ -6,11 +6,14 @@ export const QuestionService = {
 	// Get all questions for a particular quiz and send them back to the front-end
 	async search(quiz_id: number) {
 		return httpSearchQuestion("/questions", quiz_id);
-	}
+	},
 	
 	// Delete a question
 	
 	// Update a question
+	async put(question_id: number, question: string, answer: string, option2: string, option3: string, option4: string) {
+		return httpClient.put("/questions", {question_id, question, answer, option2, option3, option4,});
+	}
 	
 	// Create a question
 };

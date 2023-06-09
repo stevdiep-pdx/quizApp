@@ -45,8 +45,15 @@ export const QuestionMenu = () => {
 	const onEditButtonClick = (question: string, answer: string, option2: string, option3: string, option4: string, question_id: number) => {
 		console.log(`edit ${question_id}`);
 		
-		// Navigate to the questions page
-		// navigate("/profile/questions", { state: {name, quiz_id} });
+		// Call the update service
+		QuestionService.put(question_id, question, answer, option2, option3, option4)
+			.then(() => {
+			console.log("deleted");
+			
+			// Update the state by getting the new list
+			getQuestions().then(setQuestions);
+		})
+			.catch(err => console.log(err));
 	};
 	
 	// When the create button is clicked, make a request and go to the page to edit the quiz and pass the quiz id
