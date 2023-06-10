@@ -122,7 +122,7 @@ export const QuestionMenu = () => {
 
 			</ul>
 			{questions ? (
-				<ul>
+				<ul className="list-none block">
 					{questions.map((question: { question: string, answer: string, option2: string, option3: string, option4: string, id: number }) => (
 						// Everything list items should contain the name and id
 						<li key={question.question}>

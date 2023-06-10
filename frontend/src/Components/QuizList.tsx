@@ -1,3 +1,4 @@
+import "@css/QuizStyles.css";
 import {Quiz} from "@/Components/Quiz.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
 import { useEffect, useState } from "react";
@@ -49,7 +50,7 @@ export const QuizList = () => {
 	return (
 		<div>
 			<h2>Select a Quiz:</h2>
-			<ul>
+			<ul className="list-none">
 				<li key="rotationalQuiz">
 					<Quiz
 						name="Quiz of the Hour!"
@@ -59,7 +60,7 @@ export const QuizList = () => {
 				</li>
 			</ul>
 			{quizzes ? (
-				<ul>
+				<ul className="list-none">
 					{quizzes.map((quiz: { name: string, id: number }) => (
 						// Everything list items should contain the name and id (id is in the button to send data)
 						<li key={quiz.name}>

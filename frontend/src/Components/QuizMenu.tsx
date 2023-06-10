@@ -1,3 +1,4 @@
+import "@css/QuizStyles.css";
 import {QuizToEdit} from "@/Components/QuizToEdit.tsx";
 import { useAuth } from "@/Services/Auth.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
@@ -95,7 +96,7 @@ export const QuizMenu = () => {
 				}
 			</div>
 			{quizzes ? (
-				<ul>
+				<ul className="list-none">
 					{quizzes.map((quiz: { name: string, id: number }) => (
 						// Everything list items should contain the name and id
 						<li key={quiz.name}>

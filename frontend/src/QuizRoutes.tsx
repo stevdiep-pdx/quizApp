@@ -1,4 +1,5 @@
 import { Home } from "@/Components/HomePage.tsx";
+import {Leaderboard} from "@/Components/Leaderboard.tsx";
 import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
@@ -22,10 +23,13 @@ export function QuizRouter() {
 
 						<ul className={"menu menu-horizontal"}>
 							<li><Link to="/">Home</Link></li>
-							<li><Link to="/profile/quizzes">Your Quizzes</Link></li>
 							<li><Link to="/quizzes">Quizzes</Link></li>
+							<li><Link to="/leaderboard">Leaderboard</Link></li>
 							{auth?.token != null ? (
-								<li><Link to="/logout">Logout</Link></li>
+								<>
+									<li><Link to="/profile/quizzes">Your Quizzes</Link></li>
+									<li><Link to="/logout">Logout</Link></li>
+								</>
 							) : (
 								<>
 									<li><Link to="/login"> Login</Link></li>
@@ -45,6 +49,7 @@ export function QuizRouter() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
 				<Route path="/quizzes" element={<QuizList />} />
+				<Route path="/leaderboard" element={<Leaderboard />} />
 				<Route path="/questions" element={<QuestionList />} />
 			</Routes>
 		</div>

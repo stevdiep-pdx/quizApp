@@ -1,4 +1,4 @@
-export const Home = () => {
+export const Leaderboard = () => {
 	return (
 		<div>
 			<Title />
@@ -8,7 +8,7 @@ export const Home = () => {
 };
 
 export function Title() {
-	return <h1>Home</h1>;
+	return <h1>Leaderboard</h1>;
 }
 
 export function Subtitle() {

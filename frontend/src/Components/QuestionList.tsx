@@ -35,7 +35,7 @@ export const QuestionList = () => {
 			console.log("index after ", index, " length ", questions.length);
 		}
 		
-		if(index == questions.length - 1)
+		if(index == questions.length - 1 && location.state.challenge)
 			console.log("update leaderboard here");
 	};
 	
