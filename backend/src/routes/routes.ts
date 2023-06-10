@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { FastifyInstance } from "fastify";
+import {LeaderboardRoutesInit} from "./leaderboard_routes.js";
 import {QuestionRoutesInit} from "./question_routes.js";
 import { QuizRoutesInit } from "./quiz_routes.js";
 import { UserRoutesInit } from "./user_routes.js";
@@ -20,6 +21,7 @@ async function QuizRoutes(app: FastifyInstance, _options = {}) {
 	UserRoutesInit(app);
 	QuizRoutesInit(app);
 	QuestionRoutesInit(app);
+	LeaderboardRoutesInit(app);
 }
 
 export default QuizRoutes;

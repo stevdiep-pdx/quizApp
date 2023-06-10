@@ -1,7 +1,6 @@
-import bcrypt from "bcrypt";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { User } from "../db/entities/User.js";
-import { ICreateUsersBody, IUpdateUsersBody } from "../types.js";
+import { IUpdateUsersBody } from "../types.js";
 import { OAuth2Client } from "google-auth-library";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;

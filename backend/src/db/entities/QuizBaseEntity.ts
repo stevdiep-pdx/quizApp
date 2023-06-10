@@ -10,7 +10,12 @@ export class QuizBaseEntity extends BaseEntity<QuizBaseEntity, "id"> {
 	
 	@Property({onUpdate: () => new Date()})
 	updated_at = new Date();
+}
 
-	@Property({ nullable: true })
-	deleted_at?: Date;
+export class QuizCompositeEntity {
+	@Property()
+	created_at = new Date();
+	
+	@Property({onUpdate: () => new Date()})
+	updated_at = new Date();
 }
