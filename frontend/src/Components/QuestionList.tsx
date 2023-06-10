@@ -32,7 +32,7 @@ export const QuestionList = () => {
 			
 			LeaderboardService.put(auth.userId, score);
 		}
-	}, [score]);
+	}, [index]);
 	
 	// When an option is clicked
 	const onOptionClick = (guess: string, answer: string) => {
