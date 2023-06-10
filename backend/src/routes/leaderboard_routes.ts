@@ -1,6 +1,5 @@
-import {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
+import {FastifyInstance} from "fastify";
 import {Leaderboard} from "../db/entities/Leaderboard.js";
-import { Quiz } from "../db/entities/Quiz.js";
 import { User } from "../db/entities/User.js";
 
 export function LeaderboardRoutesInit(app: FastifyInstance) {
@@ -51,25 +50,18 @@ export function LeaderboardRoutesInit(app: FastifyInstance) {
 	
 	// Get the leaderboard for the prior quiz
 	app.get("/leaderboard", async (req, reply) => {
-	// 	// Get the quiz repo and count all of the rows
-	// 	const quizRepo = req.em.getRepository(Quiz);
-	// 	const totalCount = await quizRepo.count();
-	//
-	// 	// Get the time
-	// 	const now = new Date();
-	// 	const hours = now.getTime();
-	//
-	// 	// Get the index based on the time
-	// 	const secondsSinceEpoch = Math.floor(hours / 1000);
-	// 	const hoursSinceEpoch = Math.floor(secondsSinceEpoch / 3600);
-	//
-	// 	console.log("hours since e ",hoursSinceEpoch);
-	//
-	// 	// Get the row
-	// 	const randomOffset = hoursSinceEpoch % totalCount;
-	//
-	// 	// Get the quiz in that row and return it
-	// 	const randomQuiz = await req.em.find(Quiz, {}, {limit: 1, offset: randomOffset});
-	// 	reply.send(randomQuiz[0]);
+		// Get the time
+		const now = new Date();
+		const hours = now.getTime();
+		const secondsSinceEpoch = Math.floor(hours / 1000);
+		const hoursSinceEpoch = Math.floor(secondsSinceEpoch / 3600);
+
+		console.log("hours since e ",hoursSinceEpoch);
+
+		// Get all entries from the hour prior
+		const leaderboardEntries = await req.em.find(Leaderboard, {time: hoursSinceEpoch - 1});
+
+		// Get the quiz in that row and return it
+		reply.send(leaderboardEntries);
 	});
 }
