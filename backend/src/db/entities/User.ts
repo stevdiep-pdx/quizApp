@@ -1,4 +1,5 @@
 import { Entity, Property, Unique, OneToMany, Collection, Cascade } from "@mikro-orm/core";
+import {Leaderboard} from "./Leaderboard.js";
 import { QuizBaseEntity } from "./QuizBaseEntity.js";
 
 import { Quiz } from "./Quiz.js";
@@ -19,4 +20,11 @@ export class User extends QuizBaseEntity {
 		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
 	)
 	quizzes!: Collection<Quiz>;
+	
+	@OneToMany(
+		() => Leaderboard,
+		leaderboard => leaderboard.player,
+		{cascade: [Cascade.PERSIST, Cascade.REMOVE], orphanRemoval: true}
+	)
+	leaderboardEntries!: Collection<Leaderboard>;
 }
