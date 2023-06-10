@@ -1,7 +1,5 @@
 import {Quiz} from "@/Components/Quiz.tsx";
-import {httpClient} from "@/Services/HttpClient.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 
@@ -27,13 +25,39 @@ export const QuizList = () => {
 		console.log(`play ${name} ${id}`);
 		
 		// Navigate to the questions page
-		navigate("/questions", { state: {name, id} });
+		navigate("/questions", { state: {name, id, challenge: 0} });
+	};
+	
+	// When the play challenge button is clicked, get the id of the current challenge and play the quiz
+	const onPlayChallengeButtonClick = () => {
+		// Get the current challenge quiz
+		QuizService.random()
+			.then((response) => {
+				console.log("nav next challenge", response.data.id);
+				
+				// Save the fields of the random quiz and pass them
+				const id = response.data.id;
+				const name = response.data.name;
+				
+				// Navigate to the questions page
+				navigate("/questions", { state: {name, id, challenge: 1} });
+			})
+			.catch(err => console.log(err));
 	};
 	
 	// Build a list of quizzes using map()
 	return (
 		<div>
 			<h2>Select a Quiz:</h2>
+			<ul>
+				<li key="rotationalQuiz">
+					<Quiz
+						name="Quiz of the Hour!"
+						id={-1}
+						onPlayButtonClick={onPlayChallengeButtonClick}
+					/>
+				</li>
+			</ul>
 			{quizzes ? (
 				<ul>
 					{quizzes.map((quiz: { name: string, id: number }) => (

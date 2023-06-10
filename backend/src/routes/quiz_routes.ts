@@ -93,12 +93,21 @@ export function QuizRoutesInit(app: FastifyInstance) {
 		const quizRepo = req.em.getRepository(Quiz);
 		const totalCount = await quizRepo.count();
 		
-		// Choose a random row
-		const randomOffset = Math.floor(Math.random() * totalCount);
+		// Get the time
+		const now = new Date();
+		const hours = now.getTime();
+		
+		// Get the index based on the time
+		const secondsSinceEpoch = Math.floor(hours / 1000);
+		const hoursSinceEpoch = Math.floor(secondsSinceEpoch / 3600);
+		
+		console.log("hours since e ",hoursSinceEpoch);
+		
+		// Get the row
+		const randomOffset = hoursSinceEpoch % totalCount;
 		
 		// Get the quiz in that row and return it
 		const randomQuiz = await req.em.find(Quiz, {}, {limit: 1, offset: randomOffset});
-		reply.send(randomQuiz);
+		reply.send(randomQuiz[0]);
 	});
 }
-

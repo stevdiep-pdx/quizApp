@@ -26,5 +26,10 @@ export const QuizService = {
 	// Update a quiz's name
 	async put(id: number, new_name: string) {
 		return httpClient.put("/quizzes", {quiz_id: id, new_name});
+	},
+	
+	// Get a random quiz
+	async random() {
+		return httpClient.get("/quizzes/random");
 	}
 };

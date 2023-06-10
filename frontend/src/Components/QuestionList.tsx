@@ -30,8 +30,13 @@ export const QuestionList = () => {
 			setScore(score + 1);
 		
 		// Increase the index to get the next question
-		if(index < questions.length)
+		if(index < questions.length) {
 			setIndex(index + 1);
+			console.log("index after ", index, " length ", questions.length);
+		}
+		
+		if(index == questions.length - 1)
+			console.log("update leaderboard here");
 	};
 	
 	// If the questions list is not empty (length != 0) and we haven't reached the end of the quiz, questions
