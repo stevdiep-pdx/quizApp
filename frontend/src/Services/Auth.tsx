@@ -1,13 +1,11 @@
 import { httpClient } from "@/Services/HttpClient.tsx";
 import { createContext, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
 
 export type AuthContextProps = {
 	token: string | null;
 	userId: number;
-	handleLogin: (email: string, password: string) => Promise<boolean>;
 	handleLogout: () => void;
 };
 
@@ -40,38 +38,12 @@ if (!(initialToken == null)) {
 }
 
 export const AuthProvider = ({ children }: any) => {
-	const navigate = useNavigate();
-
 	const [token, setToken] = useState(initialToken);
 	const [userId, setUserId] = useState(initialUserId);
-
-	const handleLogin = async (email: string, password: string) => {
-		console.log("In handleLogin with ", email, password);
-
-		try {
-			const thetoken = await getLoginTokenFromServer(email, password);
-			saveToken(thetoken);
-			await updateAxios(thetoken);
-			// Hooray we're logged in and our token is saved everywhere!
-			navigate(-1);
-			return true;
-		} catch (err) {
-			console.error("Failed to handle login: ", err);
-			navigate("/login");
-			return false;
-		}
-	};
 
 	const handleLogout = () => {
 		setToken(null);
 		localStorage.removeItem("user");
-	};
-
-	const saveToken = (thetoken) => {
-		console.log(thetoken);
-		setToken(thetoken);
-		setUserId(getUserIdFromToken(thetoken));
-		localStorage.setItem("token", JSON.stringify(thetoken));
 	};
 
 	return (
@@ -79,7 +51,6 @@ export const AuthProvider = ({ children }: any) => {
 			value={{
 				token,
 				userId,
-				handleLogin,
 				handleLogout,
 			}}
 		>
@@ -101,13 +72,6 @@ function getTokenFromStorage() {
 	}
 	console.log("Token found: ", tokenString);
 	return tokenString;
-}
-
-export async function getLoginTokenFromServer(email, password) {
-	console.log("In get login token from server with ", email, password);
-
-	const login_result = await httpClient.post("/login", { email, password });
-	return login_result.data.token;
 }
 
 export function getPayloadFromToken(token: string) {

@@ -9,7 +9,7 @@ export const LeaderboardService = {
 	},
 	
 	// Update the leaderboard
-	async put(id: number, new_name: string) {
-		return httpClient.put("/quizzes", {quiz_id: id, new_name});
+	async put(id: number, score: number) {
+		return httpClient.put("/leaderboard", {id, score});
 	},
 };

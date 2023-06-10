@@ -1,4 +1,6 @@
 import {Question} from "@/Components/Question.tsx";
+import {useAuth} from "@/Services/Auth.tsx";
+import {LeaderboardService} from "@/Services/LeaderboardService.tsx";
 import {QuestionService} from "@/Services/QuestionService.tsx";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
@@ -9,7 +11,8 @@ export const QuestionList = () => {
 	const [index, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	
-	// Get variables sent in from the other page
+	// Get variables sent in from the other page and the user id from auth
+	const auth = useAuth();
 	const location = useLocation();
 	
 	// Get all questions when the page is rendered
@@ -20,14 +23,21 @@ export const QuestionList = () => {
 		};
 		
 		getQuestions(location.state.id).then(setQuestions);
-	}, [location.state.id]);
+	}, []);
+	
+	useEffect(() => {
+		// Update the leaderboard once you hit the end of the quiz
+		if(index == questions.length && location.state.challenge) {
+			console.log("update leaderboard here score: ", score);
+			
+			LeaderboardService.put(auth.userId, score);
+		}
+	}, [score]);
 	
 	// When an option is clicked
 	const onOptionClick = (guess: string, answer: string) => {
 		
-		// Check the answer they gave and see if it is correct; if it is, add a point
-		if (guess === answer)
-			setScore(score + 1);
+		
 		
 		// Increase the index to get the next question
 		if(index < questions.length) {
@@ -35,8 +45,10 @@ export const QuestionList = () => {
 			console.log("index after ", index, " length ", questions.length);
 		}
 		
-		if(index == questions.length - 1 && location.state.challenge)
-			console.log("update leaderboard here");
+		// Check the answer they gave and see if it is correct; if it is, add a point
+		if (guess === answer) {
+			setScore(score + 1);
+		}
 	};
 	
 	// If the questions list is not empty (length != 0) and we haven't reached the end of the quiz, questions

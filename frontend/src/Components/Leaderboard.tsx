@@ -12,7 +12,12 @@ export const Leaderboard = () => {
 			return LeaderboardService.get();
 		};
 		
-		getScores().then((response) => setScores(response.data));
+		getScores().then((response) => {
+			// Sort the array then set it
+			setScores(
+				response.data.sort(function(a, b){return b.score - a.score;})
+			);
+		});
 	}, []);
 	
 	// If the questions list is not empty (length != 0) and we haven't reached the end of the quiz, questions
