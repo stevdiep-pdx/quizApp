@@ -28,17 +28,17 @@ export const QuestionList = () => {
 	useEffect(() => {
 		// Update the leaderboard once you hit the end of the quiz
 		if(index == questions.length && location.state.challenge) {
-			console.log("update leaderboard here score: ", score);
 			
-			LeaderboardService.put(auth.userId, score);
+			if(auth.token) {
+				console.log("update leaderboard here score auth: ", score);
+				
+				LeaderboardService.put(auth.userId, score);
+			}
 		}
 	}, [index]);
 	
 	// When an option is clicked
 	const onOptionClick = (guess: string, answer: string) => {
-		
-		
-		
 		// Increase the index to get the next question
 		if(index < questions.length) {
 			setIndex(index + 1);

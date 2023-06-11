@@ -14,7 +14,7 @@ export function Quiz(props: QuizProps) {
 	return (
 		<div className={"rounded-box bg-slate-700 w-4/5 mx-auto"}>
 			<h2 className={"text-4xl text-blue-600"}>{name}</h2>
-			{id < 0 ? <p>You must be logged in to play the hourly challenge</p> : null}
+			{id < 0 ? <p>You must be logged to be on the leaderboard</p> : null}
 			<div className={"space-x-8 my-1"}>
 				<button className="btn btn-circle" onClick={() => onPlayButtonClick(name, id)}>Play</button>
 			</div>

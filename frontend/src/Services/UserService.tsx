@@ -8,8 +8,13 @@ export const UserService = {
 		return httpSearchUser("/users", id);
 	},
 	
-	// Update the leaderboard
-	async put(id: number, new_name: string) {
-		return httpClient.put("/quizzes", {quiz_id: id, new_name});
+	// Update the username
+	async put(id: number, name: string) {
+		return httpClient.put("/users", {name, id});
 	},
+	
+	// Delete the user
+	async delete(id: number) {
+		return httpClient.delete("/users", {data: {id}});
+	}
 };

@@ -1,5 +1,6 @@
 import "@css/QuizStyles.css";
 import {Quiz} from "@/Components/Quiz.tsx";
+import {useAuth} from "@/Services/Auth.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
@@ -9,6 +10,7 @@ export const QuizList = () => {
 	// Initial list of quizzes
 	const [quizzes, setQuizzes] = useState([]);
 	
+	// For navigating and authorization
 	const navigate = useNavigate();
 	
 	// Get all quizzes

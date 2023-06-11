@@ -2,6 +2,7 @@ import { Home } from "@/Components/HomePage.tsx";
 import {Leaderboard} from "@/Components/Leaderboard.tsx";
 import { Login } from "@/Components/Login.tsx";
 import { Logout } from "@/Components/Logout.tsx";
+import {Profile} from "@/Components/Profile.tsx";
 import { ProtectedRoute } from "@/Components/ProtectedRoute.tsx";
 import {QuestionList} from "@/Components/QuestionList.tsx";
 import {QuestionMenu} from "@/Components/QuestionMenu.tsx";
@@ -28,6 +29,7 @@ export function QuizRouter() {
 							{auth?.token != null ? (
 								<>
 									<li><Link to="/profile/quizzes">Your Quizzes</Link></li>
+									<li><Link to="/profile">Your Profile</Link></li>
 									<li><Link to="/logout">Logout</Link></li>
 								</>
 							) : (
@@ -45,6 +47,7 @@ export function QuizRouter() {
 				<Route path="/" element={<Home />} />
 				<Route path="/profile/quizzes" element={<ProtectedRoute><QuizMenu /></ProtectedRoute>} />
 				<Route path="/profile/questions" element={<ProtectedRoute><QuestionMenu /></ProtectedRoute>} />
+				<Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 				<Route path="/create" element={<SignUp />}/>
 				<Route path="/login" element={<Login />} />
 				<Route path="/logout" element={<Logout />} />
