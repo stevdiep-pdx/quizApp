@@ -26,6 +26,10 @@ export function Score(props: ScoreProps) {
 	
 	// The quiz and how it should look
 	return (
-		<p>{name} score {score}</p>
+		<>
+			<p className="inline">{name} &emsp; &emsp;</p>
+			<p className="inline font-bold float-right">{score}</p>
+		</>
+		
 	);
 }

@@ -59,7 +59,7 @@ export function LeaderboardRoutesInit(app: FastifyInstance) {
 		console.log("hours since e ",hoursSinceEpoch);
 
 		// Get all entries from the hour prior
-		const leaderboardEntries = await req.em.find(Leaderboard, {time: hoursSinceEpoch - 1});
+		const leaderboardEntries = await req.em.find(Leaderboard, {time: hoursSinceEpoch });
 
 		// Get the quiz in that row and return it
 		reply.send(leaderboardEntries);

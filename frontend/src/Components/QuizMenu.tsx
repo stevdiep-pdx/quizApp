@@ -76,10 +76,9 @@ export const QuizMenu = () => {
 	// Build a list of quizzes using map()
 	return (
 		<div>
-			<h1>Your Quizzes</h1>
-			<h2>Select a Quiz:</h2>
-			<div>
-				<label htmlFor="newQuiz">New Quiz: </label>
+			<h2 className="text-center text-2xl mt-4">Edit a Quiz</h2>
+			<div className="text-center mt-4">
+				<label htmlFor="newQuiz">Create a Quiz: </label>
 				<input
 					placeholder="Name..."
 					type="text"
