@@ -1,4 +1,3 @@
-import { ProfileType } from "@/QuizTypes.ts";
 import axios from "axios";
 
 const serverIP = import.meta.env.API_HOST;

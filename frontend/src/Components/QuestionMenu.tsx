@@ -1,5 +1,4 @@
 import {QuestionToEdit} from "@/Components/QuestionToEdit.tsx";
-import {useAuth} from "@/Services/Auth.tsx";
 import {QuestionService} from "@/Services/QuestionService.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
 import {useEffect, useState} from "react";

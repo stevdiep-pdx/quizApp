@@ -18,7 +18,7 @@ export function QuizRouter() {
 
 	return (
 		<div className={"quizfancy"}>
-			<nav className="bg-blue-800 rounded-b shadow-lg mb-4">
+			<nav className="bg-indigo-600 shadow-lg text-white">
 				<div className="navbar justify-center">
 					<div className={"navbar-center lg:flex"}>
 

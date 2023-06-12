@@ -12,11 +12,11 @@ export function Quiz(props: QuizProps) {
 	
 	// The quiz and how it should look
 	return (
-		<div className={"rounded-box bg-slate-700 w-4/5 mx-auto"}>
-			<h2 className={"text-4xl text-blue-600"}>{name}</h2>
+		<div className={"rounded-box bg-orange-100 w-4/5 mx-auto p-4 my-5"}>
+			<h2 className={"text-3xl"}>{name}</h2>
 			{id < 0 ? <p>You must be logged to be on the leaderboard</p> : null}
 			<div className={"space-x-8 my-1"}>
-				<button className="btn btn-circle" onClick={() => onPlayButtonClick(name, id)}>Play</button>
+				<button className="btn btn-outline btn-circle" onClick={() => onPlayButtonClick(name, id)}>Play</button>
 			</div>
 		</div>
 	);

@@ -1,6 +1,5 @@
 import "@css/QuizStyles.css";
 import {Quiz} from "@/Components/Quiz.tsx";
-import {useAuth} from "@/Services/Auth.tsx";
 import {QuizService} from "@/Services/QuizService.tsx";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
@@ -51,8 +50,8 @@ export const QuizList = () => {
 	// Build a list of quizzes using map()
 	return (
 		<div>
-			<h2>Select a Quiz:</h2>
-			<ul className="list-none">
+			<h2 className="text-center text-2xl mt-4">Select a Quiz</h2>
+			<ul>
 				<li key="rotationalQuiz">
 					<Quiz
 						name="Quiz of the Hour!"
@@ -62,7 +61,7 @@ export const QuizList = () => {
 				</li>
 			</ul>
 			{quizzes ? (
-				<ul className="list-none">
+				<ul>
 					{quizzes.map((quiz: { name: string, id: number }) => (
 						// Everything list items should contain the name and id (id is in the button to send data)
 						<li key={quiz.name}>

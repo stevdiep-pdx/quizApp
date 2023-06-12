@@ -37,29 +37,50 @@ export function UserRoutesInit(app: FastifyInstance) {
 
 	// CRUD ROUTES //
 	// Create a user
-	// app.post<{ Body: ICreateUsersBody }>("/users", async (req, reply) => {
-	// 	// Get info from the body of the request
-	// 	const { name, email, password } = req.body;
-	//
-	// 	try {
-	// 		// Make a new user
-	// 		const hashedPw = await bcrypt.hash(password, 10);
-	// 		const newUser = await req.em.create(User, {
-	// 			name,
-	// 			email,
-	// 			password: hashedPw
-	// 		});
-	//
-	// 		// Persist changes
-	// 		await req.em.flush();
-	//
-	// 		// Send a reply back
-	// 		return reply.send(newUser);
-	// 	} catch (err) {
-	// 		// If there is an error, send an error code back
-	// 		return reply.status(500).send({ message: err.message });
-	// 	}
-	// });
+	// Google Auth Signup
+	app.post<{
+		Body: {
+			credential: string
+		}
+	}>("/signup", async (req, reply) => {
+		console.log("in sign up rroute", req.body.credential);
+		try {
+			// Verify the response
+			const verificationResponse = await verifyGoogleToken(req.body.credential);
+			
+			// Send a message if it is bad
+			if (verificationResponse.error) {
+				return reply.status(400)
+					.send(verificationResponse.error);
+			}
+			
+			// Get the profile
+			const profile = verificationResponse?.payload;
+			
+			// Make a new user
+			const newUser = await req.em.create(User, {
+				name: profile.given_name,
+				email: profile.email,
+			});
+			
+			// Persist changes
+			await req.em.flush();
+			
+			// Get the user and send a token back with the id
+			// Search for the user using the email from the profile
+			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
+			
+			const userId = theUser.id;
+			const token = app.jwt.sign({ userId });
+			
+			console.log("in signup");
+			reply.status(201).send({token});
+			
+		} catch (err) {
+			reply.status(500)
+				.send(err);
+		}
+	});
 
 	// Read for a user
 	app.search("/users", async (req, reply) => {
@@ -113,82 +134,6 @@ export function UserRoutesInit(app: FastifyInstance) {
 		}
 	});
 	
-	
-	
-	// Login
-	// app.post<{
-	// 	Body: {
-	// 		email: string,
-	// 		password: string,
-	// 	}
-	// }>("/login", async (req, reply) => {
-	// 	const { email, password } = req.body;
-	//
-	// 	try {
-	// 		const theUser = await req.em.findOneOrFail(User, {email}, { strict: true });
-	//
-	// 		const hashCompare = await bcrypt.compare(password, theUser.password);
-	// 		if (hashCompare) {
-	// 			const userId = theUser.id;
-	// 			const token = app.jwt.sign({ userId });
-	//
-	// 			reply.send({ token });
-	// 		} else {
-	// 			app.log.info(`Password validation failed -- ${password} vs ${theUser.password}`);
-	// 			reply.status(401)
-	// 				.send("Incorrect Password");
-	// 		}
-	// 	} catch (err) {
-	// 		reply.status(500)
-	// 			.send(err);
-	// 	}
-	// });
-	
-	// Google Auth Signup
-	app.post<{
-		Body: {
-			credential: string
-		}
-	}>("/signup", async (req, reply) => {
-		console.log("in sign up rroute", req.body.credential);
-		try {
-			// Verify the response
-			const verificationResponse = await verifyGoogleToken(req.body.credential);
-			
-			// Send a message if it is bad
-			if (verificationResponse.error) {
-				return reply.status(400)
-					.send(verificationResponse.error);
-			}
-			
-			// Get the profile
-			const profile = verificationResponse?.payload;
-			
-			// Make a new user
-			const newUser = await req.em.create(User, {
-				name: profile.given_name,
-				email: profile.email,
-			});
-			
-			// Persist changes
-			await req.em.flush();
-			
-			// Get the user and send a token back with the id
-			// Search for the user using the email from the profile
-			const theUser = await req.em.findOneOrFail(User, {email: profile.email}, { strict: true });
-			
-			const userId = theUser.id;
-			const token = app.jwt.sign({ userId });
-			
-			console.log("in signup");
-			reply.status(201).send({token});
-			
-		} catch (err) {
-			reply.status(500)
-				.send(err);
-		}
-	});
-	
 	// Google Auth Login
 	app.post<{
 			Body: {
@@ -222,5 +167,4 @@ export function UserRoutesInit(app: FastifyInstance) {
 				.send(err);
 		}
 	});
-	
 }
