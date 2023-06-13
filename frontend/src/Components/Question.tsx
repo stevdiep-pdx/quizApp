@@ -25,14 +25,11 @@ export function Question(props: QuestionProps) {
 	
 	// The quiz and how it should look
 	return (
-		<div className={"rounded-box bg-slate-700 w-4/5 mx-auto"}>
-			<div className={"space-x-8 my-1"}>
-				<p>Select an option</p>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[0], answer)}>{answerSet[0]}</button>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[1], answer)}>{answerSet[1]}</button>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[2], answer)}>{answerSet[2]}</button>
-				<button className="btn bg-slate-500 w-4/5 m-5" onClick={() => onOptionClick(answerSet[3], answer)}>{answerSet[3]}</button>
-			</div>
+		<div className={"rounded-box bg-orange-100 w-4/5 mx-auto p-4 my-5 text-center"}>
+			<button className="btn btn-warning w-4/5 m-5" onClick={() => onOptionClick(answerSet[0], answer)}>{answerSet[0]}</button>
+			<button className="btn btn-warning w-4/5 m-5" onClick={() => onOptionClick(answerSet[1], answer)}>{answerSet[1]}</button>
+			<button className="btn btn-warning w-4/5 m-5" onClick={() => onOptionClick(answerSet[2], answer)}>{answerSet[2]}</button>
+			<button className="btn btn-warning w-4/5 m-5" onClick={() => onOptionClick(answerSet[3], answer)}>{answerSet[3]}</button>
 		</div>
 	);
 }

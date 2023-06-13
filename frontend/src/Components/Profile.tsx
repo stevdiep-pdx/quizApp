@@ -49,8 +49,8 @@ export const Profile = () => {
 	};
 	
 	return (
-		<div>
-			<h1>Profile</h1>
+		<div className="text-center">
+			<h2 className="text-center text-2xl mt-4">Profile</h2>
 			<label htmlFor="name">Username: </label>
 			<input
 				placeholder="Name..."

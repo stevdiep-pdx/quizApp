@@ -35,7 +35,7 @@ services:
       - PASSWORD=password
       - NODE_ENV=development
       - AUTH_SECRET=supersecret219340818092358
-      - GOOGLE_CLIENT_ID=G
+      - GOOGLE_CLIENT_ID=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
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,7 +49,7 @@ services:
     environment:
       - API_HOST=backend
       - PORT=8080
-      - REACT_APP_GOOGLE_CLIENT_ID=6
+      - REACT_APP_GOOGLE_CLIENT_ID=639025627655-5va92hd2femmu9aa0dbiodocn71dj1vk.apps.googleusercontent.com
 
 volumes:
   db:

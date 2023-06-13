@@ -55,10 +55,9 @@ export const QuestionList = () => {
 	// Increment the index to display the next question
 	return (
 		<div>
-			<h1>Questions for the Quiz: {location.state.name} id: {location.state.id}</h1>
 			{questions.length != 0 && index < questions.length ? (
 				<div>
-					<p>{questions[index].question}</p>
+					<h2 className="text-center text-2xl mt-4">{questions[index].question}</h2>
 					<Question
 						answer={questions[index].answer}
 						option2={questions[index].option2}
@@ -67,8 +66,8 @@ export const QuestionList = () => {
 						onOptionClick={(guess, answer) => onOptionClick(guess, answer)}
 					/>
 				</div>
-			) : <p>No more questions</p>}
-			<p>Total score: {score}</p>
+			) : <h2 className="text-center text-2xl mt-4">No more questions</h2>}
+			<p className="text-center">Total score: {score}</p>
 		</div>
 	);
 };

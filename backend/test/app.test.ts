@@ -253,7 +253,7 @@ void tap.test("Getting all questions from a quiz", async () => {
 // Updating a question
 void tap.test("Updating a question", async () => {
 	const payload = {
-		question_id: 7,
+		question_id: 6,
 		question: "What is the capitol of the state of Oregon?",
 		answer: "Salem",
 		option2: "Portland",
@@ -290,7 +290,7 @@ void tap.test("Deleting a question", async () => {
 	
 	// Good delete
 	payload = {
-		question_id: 7,
+		question_id: 6,
 	};
 	
 	response = await app.inject({

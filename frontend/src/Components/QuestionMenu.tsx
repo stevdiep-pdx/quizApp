@@ -86,8 +86,8 @@ export const QuestionMenu = () => {
 	
 	return (
 		<div>
-			<h1>Editing quiz: {location.state.name} id: {location.state.quiz_id}</h1>
-			<div>
+			<h2 className="text-center text-2xl mt-4">Edit a Quiz</h2>
+			<div className="text-center my-4">
 				<label htmlFor="newName">Change Name: </label>
 				<input
 					placeholder="Name..."
