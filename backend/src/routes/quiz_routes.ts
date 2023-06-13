@@ -8,6 +8,7 @@ export function QuizRoutesInit(app: FastifyInstance) {
 	app.post<{ Body: { id: number, quiz_name: string } }>("/quizzes", async (req, reply) => {
 		const {id, quiz_name } = req.body;
 		
+		console.log("new quiz");
 		try {
 			// Find the creator of the quiz
 			const creatorUser = await req.em.findOneOrFail(User, id, {strict: true});
@@ -64,18 +65,10 @@ export function QuizRoutesInit(app: FastifyInstance) {
 	});
 	
 	// Delete a quiz
-	app.delete<{ Body: { my_id: number, quiz_id: number; password: string } }>("/quizzes", async (req, reply) => {
-		const { my_id, quiz_id, password } = req.body;
+	app.delete<{ Body: { quiz_id: number } }>("/quizzes", async (req, reply) => {
+		const { quiz_id } = req.body;
 		
 		try {
-			// Get the user
-			const me = await req.em.findOneOrFail(User, my_id, {strict: true});
-			
-			// Make sure that the password provided matches
-			if (me.password !== password) {
-				return reply.status(401).send();
-			}
-			
 			// Get the quiz
 			const quizToDelete = await req.em.findOneOrFail(Quiz, quiz_id, {strict: true});
 			
@@ -89,18 +82,32 @@ export function QuizRoutesInit(app: FastifyInstance) {
 		}
 	});
 	
+	// Get all quizzes
+	app.get("/quizzes", async (request: FastifyRequest, _reply: FastifyReply) => {
+		return request.em.find(Quiz, {});
+	});
+	
 	// Get a random quiz
-	app.get("/quizzes", async (req, reply) => {
+	app.get("/quizzes/random", async (req, reply) => {
 		// Get the quiz repo and count all of the rows
 		const quizRepo = req.em.getRepository(Quiz);
 		const totalCount = await quizRepo.count();
 		
-		// Choose a random row
-		const randomOffset = Math.floor(Math.random() * totalCount);
+		// Get the time
+		const now = new Date();
+		const hours = now.getTime();
+		
+		// Get the index based on the time
+		const secondsSinceEpoch = Math.floor(hours / 1000);
+		const hoursSinceEpoch = Math.floor(secondsSinceEpoch / 3600);
+		
+		console.log("hours since e ",hoursSinceEpoch);
+		
+		// Get the row
+		const randomOffset = hoursSinceEpoch % totalCount;
 		
 		// Get the quiz in that row and return it
 		const randomQuiz = await req.em.find(Quiz, {}, {limit: 1, offset: randomOffset});
-		reply.send(randomQuiz);
+		reply.send(randomQuiz[0]);
 	});
 }
-

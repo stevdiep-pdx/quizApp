@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import cors from '@fastify/cors'
-import { FastifyBadWordsPlugin } from "./plugins/badwords.js";
+import {AuthPlugin} from "./plugins/auth.js";
 import { FastifySearchHttpMethodPlugin } from "./plugins/http_search.js";
 import { FastifyMikroOrmPlugin } from "./plugins/mikro.js";
 import QuizRoutes from "./routes/routes.js";
@@ -39,13 +39,13 @@ const app = Fastify({
 await app.register(cors, {
 	origin: (origin, cb) => {
 		cb(null, true);
-	}
+	},
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'SEARCH']
 });
 
 await app.register(FastifyMikroOrmPlugin, config);
 await app.register(FastifySearchHttpMethodPlugin, {});
-await app.register(FastifyBadWordsPlugin);
-
+await app.register(AuthPlugin);
 await app.register(QuizRoutes, {});
 
 export default app;

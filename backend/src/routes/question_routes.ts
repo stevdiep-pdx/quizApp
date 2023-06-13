@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify";
 import {Question} from "../db/entities/Question.js";
 import { Quiz } from "../db/entities/Quiz.js";
-import { User } from "../db/entities/User.js";
 import {ICreateQuestion, IUpdateQuestion} from "../types.js";
 
 export function QuestionRoutesInit(app: FastifyInstance) {
@@ -38,6 +37,7 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 	app.search<{ Body: { quiz_id: number } }>("/questions", async (req, reply) => {
 		const {quiz_id} = req.body;
 		
+		console.log("searching questions for quiz ", quiz_id);
 		try {
 			// Find the quiz and their questions
 			const quizEntity = await req.em.getReference(Quiz, quiz_id);
@@ -77,18 +77,10 @@ export function QuestionRoutesInit(app: FastifyInstance) {
 	});
 	
 	// Delete a question
-	app.delete<{ Body: { my_id: number, question_id: number; password: string } }>("/questions", async (req, reply) => {
-		const {my_id, question_id, password} = req.body;
+	app.delete<{ Body: { question_id: number } }>("/questions", async (req, reply) => {
+		const {question_id} = req.body;
 		
 		try {
-			// Get the user
-			const me = await req.em.findOneOrFail(User, my_id, {strict: true});
-			
-			// Make sure that the password provided matches
-			if (me.password !== password) {
-				return reply.status(401).send();
-			}
-			
 			// Get the question
 			const questionToDelete = await req.em.findOneOrFail(Question, question_id, {strict: true});
 			

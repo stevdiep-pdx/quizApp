@@ -8,27 +8,22 @@ export class UserSeeder extends Seeder {
 		context.user1 = em.create(User, {
 			name: "Steven",
 			email: "email@email.com",
-			password: "password",
 		});
-
 		context.user2 = em.create(User, {
 			name: "HistoryBuff",
 			email: "email2@email.com",
-			password: "password",
-
 		});
-
 		context.user3 = em.create(User, {
 			name: "MathGuy",
 			email: "email3@email.com",
-			password: "password",
-
 		});
-
 		context.user4 = em.create(User, {
 			name: "NotaDog",
 			email: "email4@email.com",
-			password: "password",
+		});
+		context.user5 = em.create(User, {
+			name: "Steven Diep",
+			email: "stevdiep@pdx.edu",
 		});
 	}
 }
