@@ -6,7 +6,7 @@ import {User} from "./User.js";
 @Entity()
 export class Leaderboard extends QuizCompositeEntity {
 	// The player
-	@ManyToOne({primary: true, onUpdateIntegrity: 'set null', onDelete: 'cascade'})
+	@ManyToOne({primary: true})
 	player!: Ref<User>;
 	
 	// The hour that the score was logged
