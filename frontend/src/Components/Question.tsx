@@ -8,6 +8,10 @@ export type QuestionProps = {
 	onOptionClick: (guess: string, answer: string) => void;
 };
 
+/** This is a component to display a question and its set of options
+ *
+ * @component
+ */
 export function Question(props: QuestionProps) {
 	// Define the props
 	const { answer, option2, option3, option4, onOptionClick } = props;

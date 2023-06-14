@@ -13,6 +13,10 @@ export type QuestionProps = {
 	onDeleteButtonClick: (id: number) => void;
 };
 
+/** This is a component to display the question being edited
+ *
+ * @component
+ */
 export function QuestionToEdit(props: QuestionProps) {
 	// Define the props
 	const { header, question, answer, option2, option3, option4, id, onEditButtonClick, onDeleteButtonClick } = props;

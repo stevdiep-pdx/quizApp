@@ -4,6 +4,10 @@ import {QuizService} from "@/Services/QuizService.tsx";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 
+/** This is a component to display all questions and allow the user to edit them
+ *
+ * @component
+ */
 export const QuestionMenu = () => {
 	// Get variables sent in from the other page
 	const location = useLocation();

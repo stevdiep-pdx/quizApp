@@ -5,6 +5,10 @@ import {QuestionService} from "@/Services/QuestionService.tsx";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 
+/** This is a component to play the quiz and display the question
+ *
+ * @component
+ */
 export const QuestionList = () => {
 	// Initial variables
 	const [questions, setQuestions] = useState([]);

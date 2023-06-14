@@ -5,6 +5,10 @@ import {QuizService} from "@/Services/QuizService.tsx";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 
+/** This is a component to display all quizzes owned by a user and let them edit one
+ *
+ * @component
+ */
 export const QuizMenu = () => {
 	// Initial list of quizzes
 	const [quizzes, setQuizzes] = useState([]);

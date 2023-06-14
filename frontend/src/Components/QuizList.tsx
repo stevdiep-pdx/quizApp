@@ -4,7 +4,10 @@ import {QuizService} from "@/Services/QuizService.tsx";
 import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 
-// Display all quizzes and a button to navigate users to a page where they can quiz themselves
+/** This is a component to list all quizzes and allow users to play them
+ *
+ * @component
+ */
 export const QuizList = () => {
 	// Initial list of quizzes
 	const [quizzes, setQuizzes] = useState([]);

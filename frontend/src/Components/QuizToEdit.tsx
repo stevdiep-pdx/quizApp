@@ -7,6 +7,10 @@ export type QuizProps = {
 	onDeleteButtonClick: (id: number) => void;
 };
 
+/** This is a component to display a quiz that can be edited
+ *
+ * @component
+ */
 export function QuizToEdit(props: QuizProps) {
 	// Define the props
 	const { name, id, onEditButtonClick, onDeleteButtonClick } = props;

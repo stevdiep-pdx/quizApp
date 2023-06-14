@@ -2,6 +2,10 @@ import {Score} from "@/Components/Score.tsx";
 import {LeaderboardService} from "@/Services/LeaderboardService.tsx";
 import {useEffect, useState} from "react";
 
+/** This is a component to display the leaderboard
+ *
+ * @component
+ */
 export const Leaderboard = () => {
 	const [scores, setScores] = useState([]);
 	

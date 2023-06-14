@@ -7,6 +7,10 @@ export type ScoreProps = {
 	score: number;
 };
 
+/** This is a component to display the score on the leaderboard
+ *
+ * @component
+ */
 export function Score(props: ScoreProps) {
 	// Define the props
 	const { player, score } = props;
