@@ -6,7 +6,11 @@ import { OAuth2Client } from "google-auth-library";
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
-// Function to verify the token passed
+/** Helper function to authenticate with google
+ *
+ * @param {string} token - The base Fastify listen server instance
+ * @returns {undefined} - Returns the payload with info about our gmail
+ */
 const verifyGoogleToken = async (token) => {
 	try {
 		console.log("token:", token)
@@ -25,6 +29,11 @@ const verifyGoogleToken = async (token) => {
 	}
 }
 
+/** CRUD Routes for interacting with users
+ *
+ * @param {FastifyInstance} app - The base Fastify listen server instance
+ * @returns {Promise<void>} - Returns all of the initialized routes
+ */
 export function UserRoutesInit(app: FastifyInstance) {
 	// TESTING ROUTES //
 	// Route that returns all users

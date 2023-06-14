@@ -4,17 +4,18 @@ import {Question} from "./Question.js";
 import { QuizBaseEntity } from "./QuizBaseEntity.js";
 import { User } from "./User.js";
 
+/** Class to manage quizzes */
 @Entity()
 export class Quiz extends QuizBaseEntity {
-	// The quiz creator
+	/** Creator of the quiz */
 	@ManyToOne({onUpdateIntegrity: 'set null', onDelete: 'cascade'})
 	creator!: Ref<User>;
 	
-	// The quiz name
+	/** Quiz name */
 	@Property()
 	name!: string;
 	
-	// Note that these DO NOT EXIST in the database itself!
+	/** Questions in the quiz (used to cascade) */
 	@OneToMany(
 		() => Question,
 		question => question.quiz,
