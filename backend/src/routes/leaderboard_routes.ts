@@ -2,6 +2,11 @@ import {FastifyInstance} from "fastify";
 import {Leaderboard} from "../db/entities/Leaderboard.js";
 import { User } from "../db/entities/User.js";
 
+/** Routes for updating and getting the leaderboard
+ *
+ * @param {FastifyInstance} app - The base Fastify listen server instance
+ * @returns {Promise<void>} - Returns all of the initialized routes
+ */
 export function LeaderboardRoutesInit(app: FastifyInstance) {
 	// The leaderboard does not need a set of CRUD routes, it only needs a route to update the leaderboard and get it
 	

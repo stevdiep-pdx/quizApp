@@ -3,6 +3,10 @@ import {UserService} from "@/Services/UserService.tsx";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
+/** This is a component to display the profile
+ *
+ * @component
+ */
 export const Profile = () => {
 	// State to hold the user's name
 	const [name, setName] = useState("");

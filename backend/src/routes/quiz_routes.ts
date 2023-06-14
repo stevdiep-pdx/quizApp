@@ -2,6 +2,11 @@ import {FastifyInstance, FastifyReply, FastifyRequest} from "fastify";
 import { Quiz } from "../db/entities/Quiz.js";
 import { User } from "../db/entities/User.js";
 
+/** CRUD Routes for interacting with quizzes
+ *
+ * @param {FastifyInstance} app - The base Fastify listen server instance
+ * @returns {Promise<void>} - Returns all of the initialized routes
+ */
 export function QuizRoutesInit(app: FastifyInstance) {
 	// CRUD ROUTES //
 	// Create a quiz

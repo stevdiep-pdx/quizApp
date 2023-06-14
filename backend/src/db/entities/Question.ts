@@ -3,26 +3,30 @@ import type { Ref } from "@mikro-orm/core";
 import { QuizBaseEntity } from "./QuizBaseEntity.js";
 import { Quiz } from "./Quiz.js";
 
+/** Class to manage questions */
 @Entity()
 export class Question extends QuizBaseEntity {
-	// The quiz that this question belongs too
+	/** Quiz that the question belongs to */
 	@ManyToOne({onUpdateIntegrity: 'set null', onDelete: 'cascade'})
 	quiz!: Ref<Quiz>;
 	
-	// The quiz name
+	/** Questions */
 	@Property()
 	question!: string;
 	
-	// 'answer' contains the true answer to the question, the others are possibilities
+	/** The correct option */
 	@Property()
 	answer!: string;
 	
+	/** An option */
 	@Property()
 	option2!: string;
 	
+	/** An option */
 	@Property()
 	option3!: string;
 	
+	/** An option */
 	@Property()
 	option4!: string;
 }

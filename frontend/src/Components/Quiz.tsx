@@ -6,6 +6,10 @@ export type QuizProps = {
 	onPlayButtonClick: (name: string, id: number) => void;
 };
 
+/** This is a component to display a quiz
+ *
+ * @component
+ */
 export function Quiz(props: QuizProps) {
 	// Define the props
 	const { name, id, onPlayButtonClick } = props;

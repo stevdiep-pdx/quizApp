@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 const reactId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 // https://developers.google.com/identity/gsi/web/reference/js-reference
+/** This is a component to login
+ *
+ * @component
+ */
 export const Login = () => {
 	// Call the login route
 	const { handleGoogle, loading, error } = useFetch(

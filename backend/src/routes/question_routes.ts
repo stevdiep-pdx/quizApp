@@ -3,6 +3,11 @@ import {Question} from "../db/entities/Question.js";
 import { Quiz } from "../db/entities/Quiz.js";
 import {ICreateQuestion, IUpdateQuestion} from "../types.js";
 
+/** CRUD Routes for interacting with questions
+ *
+ * @param {FastifyInstance} app - The base Fastify listen server instance
+ * @returns {Promise<void>} - Returns all of the initialized routes
+ */
 export function QuestionRoutesInit(app: FastifyInstance) {
 	// CRUD ROUTES //
 	// Create a question

@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 
 const reactId = import.meta.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-// Component to sign up for an account
+/** This is a component to signup
+ *
+ * @component
+ */
 export const SignUp = () => {
 	// Get the function to handle google authentication and other variables
 	const { handleGoogle, loading, error } = useFetch(
