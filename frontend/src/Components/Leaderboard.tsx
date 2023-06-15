@@ -17,6 +17,7 @@ export const Leaderboard = () => {
 		};
 		
 		getScores().then((response) => {
+			// https://www.w3schools.com/js/js_array_sort.asp
 			// Sort the array then set it
 			setScores(
 				response.data.sort(function(a, b){return b.score - a.score;})

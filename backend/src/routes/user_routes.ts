@@ -6,6 +6,7 @@ import { OAuth2Client } from "google-auth-library";
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
+// https://www.sitepoint.com/google-auth-react-express/
 /** Helper function to authenticate with google
  *
  * @param {string} token - The base Fastify listen server instance
@@ -15,6 +16,7 @@ const verifyGoogleToken = async (token) => {
 	try {
 		console.log("token:", token)
 		
+		// https://stackoverflow.com/questions/54138959/google-sign-in-backend-verification
 		const ticket = await client.verifyIdToken({
 			idToken: token,
 			// @ts-ignore
