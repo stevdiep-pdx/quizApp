@@ -98,6 +98,7 @@ export function QuizRoutesInit(app: FastifyInstance) {
 		const quizRepo = req.em.getRepository(Quiz);
 		const totalCount = await quizRepo.count();
 		
+		// https://futurestud.io/tutorials/get-number-of-seconds-since-epoch-in-javascript
 		// Get the time
 		const now = new Date();
 		const hours = now.getTime();
@@ -112,6 +113,7 @@ export function QuizRoutesInit(app: FastifyInstance) {
 		const randomOffset = hoursSinceEpoch % totalCount;
 		
 		// Get the quiz in that row and return it
+		// https://mikro-orm.io/docs/3.6/entity-manager
 		const randomQuiz = await req.em.find(Quiz, {}, {limit: 1, offset: randomOffset});
 		reply.send(randomQuiz[0]);
 	});
